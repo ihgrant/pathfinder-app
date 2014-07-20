@@ -1,3 +1,9 @@
+html {
+	box-sizing: border-box;
+}
+*, *:before, *:after {
+	box-sizing: inherit;
+}
 body {
 	margin: 0;
 	padding: 0;
@@ -6,11 +12,81 @@ body {
 	color: #444444;
 }
 
-.App {
-	padding: 25px;
-}
-
 .container {
 	margin: 0 auto;
-	max-width: 30em;
+	max-width: 50em;
+}
+.boxstyle {
+	border: none;
+	box-shadow: inset 2px -2px 0 #333;
+}
+li p {
+	line-height: 1.5em;
+	text-rendering: optimizeLegibility;
+}
+
+.bg-fff {
+	background: #fff;
+}
+.hover-eee:hover {
+	background: #eee;
+}
+.m-05e {
+	margin: .5em;
+}
+.m-t-0 {
+	margin-top: 0;
+}
+.m-b-0 {
+	margin-bottom: 0;
+}
+.p-05e {
+	padding: .5em;
+}
+.p-1e {
+	padding: 1em;
+}
+.w-10 {
+	width: calc(10% - 2px);
+}
+.w-90 {
+	width: 90%;
+}
+.w-100 {
+	width: 100%;
+}
+.pos-rel {
+	position: relative;
+}
+.ul-none {
+	list-style: none;
+	padding: 0;
+}
+.abs-top {
+	position: absolute;
+	top: auto;
+	left: 0;
+}
+.abs-inputright {
+	position: absolute;
+	top: 0;
+	right: 10%;
+	margin: .5em;
+	color: #999;
+}
+.invis {
+	display: none;
+}
+input[type="search"],
+input[type="text"],
+input[type="number"] {
+	line-height: 2em;
+	min-height: 2em;
+	padding: 1px .5em;
+	box-sizing: border-box;
+}
+button {
+	background: #fff;
+	cursor: pointer;
+	padding: .5em;
 }
