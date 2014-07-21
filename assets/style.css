@@ -4,14 +4,14 @@ html {
 *, *:before, *:after {
 	box-sizing: inherit;
 }
+
+/* site specific classes */
 body {
 	margin: 0;
 	padding: 0;
-	font-family: Helvetica, sans-serif;
-	background: #fefefe;
+	font-family: 'Old Standard TT', serif;
 	color: #444444;
 }
-
 .container {
 	margin: 0 auto;
 	max-width: 50em;
@@ -20,13 +20,40 @@ body {
 	border: none;
 	box-shadow: inset 2px -2px 0 #333;
 }
-li p {
+h1, h2, h3, h4, h5, h6 {
+	font-family: 'Vollkorn', serif;
+}
+/*li, p, input, button, label {
+	font-family: 'Old Standard TT', serif;
+}*/
+p {
 	line-height: 1.5em;
 	text-rendering: optimizeLegibility;
 }
+/*h3 {
+	color: #fff;
+	background-color: #6083CE;
+}*/
+input[type="search"],
+input[type="text"],
+input[type="number"] {
+	line-height: 2em;
+	min-height: 2.5em;
+	padding: 1px .5em;
+	box-sizing: border-box;
+}
+button {
+	background: #fff;
+	cursor: pointer;
+	padding: .5em;
+}
 
+/* utility classes */
 .bg-fff {
 	background: #fff;
+}
+.color-aaa {
+	color: #aaa;
 }
 .hover-eee:hover {
 	background: #eee;
@@ -62,6 +89,9 @@ li p {
 	list-style: none;
 	padding: 0;
 }
+.italic {
+	font-style: italic;
+}
 .abs-top {
 	position: absolute;
 	top: auto;
@@ -76,17 +106,4 @@ li p {
 }
 .invis {
 	display: none;
-}
-input[type="search"],
-input[type="text"],
-input[type="number"] {
-	line-height: 2em;
-	min-height: 2em;
-	padding: 1px .5em;
-	box-sizing: border-box;
-}
-button {
-	background: #fff;
-	cursor: pointer;
-	padding: .5em;
 }

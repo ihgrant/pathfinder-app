@@ -26,19 +26,32 @@ var MainPage = React.createClass({
 var SpellPage = React.createClass({
 	mixins: [ReactAsync.Mixin],
 	statics: {
-		getClassList: function (cb) {
-			superagent.get(
-				'/api/classes',
-				function(err, res) {
+		getSpellList: function (cb, filters) {
+			var filter = filters.filter;
+			if (filter.length && filter !== '*' && filter !== '%') {
+				var query = filters.filterCol+'=' + filter;
+
+				if (filters.clas !== 'none') {
+					query += '&start_lvl='+filters.min_lvl
+						+'&end_lvl='+filters.max_lvl
+						+'&clas='+filters.clas;
+				}
+				superagent.get('/api/spells?'+query, function(err, res) {
 					cb(err, res ? res.body : null);
 				});
+			} else {
+				cb(err, []);
+			}
+		},
+		getClassList: function (cb) {
+			superagent.get('/api/classes', function (err, res) {
+				cb(err, res ? res.body : null);
+			});
 		},
 		getMagicSchoolList: function (cb) {
-			superagent.get(
-				'/api/magic_schools',
-				function(err, res) {
-					cb(err, res ? res.body : null);
-				});
+			superagent.get('/api/magic_schools', function (err, res) {
+				cb(err, res ? res.body : null);
+			});
 		}
 		// getUserInfo: function(username, cb) {
 		// 	superagent.get(
@@ -48,14 +61,14 @@ var SpellPage = React.createClass({
 		// 		});
 		// }
 	},
-	getInitialStateAsync: function(cb) {
+	getInitialStateAsync: function (cb) {
 		this.type.getClassList(cb);
 		// this.type.getMagicSchoolList(cb);
 	},
-	render: function() {
+	render: function () {
 		return (
 			<div className="SpellPage container">
-				<FilterableList filterCol='name' classes={this.state.classes} schools={this.state.magic_schools}/>
+				<FilterableList filterCol='name' classes={this.state}/>
 			</div>
 		);
 	}
@@ -72,17 +85,15 @@ var FilterableList = React.createClass({
 					+'&end_lvl='+this.state.max_lvl
 					+'&clas='+this.state.clas;
 			}
-			superagent.get(
-				'/api/spells?'+query,
-				function(err, res) {
-					if (err) {
-						console.log(err);
-					} else {
-						this.setState({
-							spells: res ? res.body : [],
-						});
-					}
-				}.bind(this));
+			superagent.get('/api/spells?'+query, function(err, res) {
+				if (err) {
+					console.log(err);
+				} else {
+					this.setState({
+						spells: res ? res.body : [],
+					});
+				}
+			}.bind(this));
 		} else {
 			this.setState({
 				spells: []
@@ -139,8 +150,9 @@ var FilterableList = React.createClass({
 			);
 		});
 		// classes = this.props.classes.map(function (clas) {
-		// 	//
+		// 	return clas.description;
 		// }.bind(this));
+		console.log(this.props.classes);
 		return (
 			<div>
 				<form className="pos-rel">
@@ -221,9 +233,9 @@ var FilterableList = React.createClass({
 var FilterableListItem = React.createClass({
 	render: function () {
 		return (
-			<li className="hover-eee p-1e">
+			<li className="p-1e">
 				<h3 className="m-t-0">{this.props.item.name}</h3>
-				<h6 className="m-05e">{this.props.item.spell_level}</h6>
+				<p className="m-05e italic color-aaa">{this.props.item.spell_level}</p>
 				<ul>
 					<li>{'casting time: '+this.props.item.casting_time}</li>
 					<li>{'range: '+this.props.item.range}</li>
@@ -291,6 +303,8 @@ var App = React.createClass({
 			<html>
 				<head>
 					<link rel="stylesheet" href="/assets/normalize.css" />
+					<link href='http://fonts.googleapis.com/css?family=Old+Standard+TT:400,400italic,700' rel='stylesheet' type='text/css' />
+					<link href='http://fonts.googleapis.com/css?family=Vollkorn:700' rel='stylesheet' type='text/css' />
 					<link rel="stylesheet" href="/assets/style.css" />
 					<script src="/assets/bundle.js" />
 				</head>
