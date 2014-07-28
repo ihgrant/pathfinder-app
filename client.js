@@ -23,6 +23,25 @@ var MainPage = React.createClass({
 	}
 });
 
+var PageNav = React.createClass({
+	render: function () {
+		return (
+			<div className="container">
+				<div className="tbl w-100">
+				<div className="tbl-row">
+					<div className={"tbl-cell p-05e"+(this.props.currentpage==='Spells'?' current':'')}>
+						<a href="/spells">Spells</a>
+					</div>
+					<div className={"tbl-cell p-05e"+(this.props.currentpage==='Feats'?' current':'')}>
+						<a href="/feats">Feats</a>
+					</div>
+				</div>
+				</div>
+			</div>
+		);
+	}
+});
+
 var SpellPage = React.createClass({
 	mixins: [ReactAsync.Mixin],
 	statics: {
@@ -67,7 +86,10 @@ var SpellPage = React.createClass({
 	},
 	render: function () {
 		return (
-			<div className="SpellPage container">
+			<div className="SpellPage">
+				<div className="bg-purple">
+					<PageNav currentpage="Spells"/>
+				</div>
 				<FilterableList filterCol='name' classes={this.state}/>
 			</div>
 		);
@@ -152,13 +174,13 @@ var FilterableList = React.createClass({
 		// classes = this.props.classes.map(function (clas) {
 		// 	return clas.description;
 		// }.bind(this));
-		console.log(this.props.classes);
 		return (
 			<div>
-				<form className="pos-rel">
+			<div className="bg-teal">
+				<form className="pos-rel container">
 					<input
 						type="search"
-						className="w-90 boxstyle"
+						className="w-90 boxstyle bg-i"
 						autofocus
 						placeholder={"Filter "+this.props.filterCol+"..."}
 						onChange={this.handleFilterChange}
@@ -167,11 +189,11 @@ var FilterableList = React.createClass({
 						{this.state.clas !=='none' ? this.state.clas+","+" level "+this.state.min_lvl+"-"+this.state.max_lvl : ""}
 					</span>
 					<button
-						className="w-10 boxstyle"
+						className="w-10 boxstyle bg-i"
 						onClick={this.handleShowMore}>
 						{this.state.moreForm ? "Less..." : "More..."}
 					</button>
-					<div className={"w-100 boxstyle  abs-top bg-fff"+(this.state.moreForm ? "" : " invis")}>
+					<div className={"w-100 boxstyle bg-teal abs-top"+(this.state.moreForm ? "" : " invis")}>
 						<div className="p-05e">
 							<table className="w-100">
 								<tr>
@@ -222,9 +244,12 @@ var FilterableList = React.createClass({
 						</div>
 					</div>
 				</form>
-				<ul className="ul-none">
+			</div>
+			<div className="bg-white">
+				<ul className="container ul-none">
 					{spells}
 				</ul>
+			</div>
 			</div>
 		);
 	}
@@ -249,44 +274,6 @@ var FilterableListItem = React.createClass({
 	}
 });
 
-// var UserPage = React.createClass({
-// 	mixins: [ReactAsync.Mixin],
-// 	statics: {
-// 		getUserInfo: function(username, cb) {
-// 			superagent.get(
-// 				'http://localhost:3000/api/users/' + username,
-// 				function(err, res) {
-// 					cb(err, res ? res.body : null);
-// 				});
-// 		}
-// 	},
-// 	getInitialStateAsync: function(cb) {
-// 		this.type.getUserInfo(this.props.username, cb);
-// 	},
-// 	componentWillReceiveProps: function(nextProps) {
-// 		if (this.props.username !== nextProps.username) {
-// 			this.type.getUserInfo(nextProps.username, function(err, info) {
-// 				if (err) {
-// 					throw err;
-// 				}
-// 				this.setState(info);
-// 			}.bind(this));
-// 		}
-// 	},
-// 	render: function() {
-// 		var otherUser = this.props.username === 'doe' ? 'ivan' : 'doe';
-// 		return (
-// 			<div className="UserPage">
-// 				<h1>Hello, {this.state.name}!</h1>
-// 				<p>
-// 					Go to <Link href={"/users/" + otherUser}>/users/{otherUser}</Link>
-// 				</p>
-// 				<p><Link href="/">Logout</Link></p>
-// 			</div>
-// 		);
-// 	}
-// });
-
 var NotFoundHandler = React.createClass({
 
 	render: function() {
@@ -308,7 +295,7 @@ var App = React.createClass({
 					<link rel="stylesheet" href="/assets/style.css" />
 					<script src="/assets/bundle.js" />
 				</head>
-				<Pages className="App container" path={this.props.path}>
+				<Pages className="App bg-bluewhite" path={this.props.path}>
 					<Page path="/" handler={MainPage} />
 					<Page path="/spells" handler={SpellPage} />
 					<NotFound handler={NotFoundHandler} />
