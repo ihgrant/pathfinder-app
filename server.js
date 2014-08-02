@@ -10,6 +10,7 @@ var Api = require('./api');
 var App = require('./client');
 
 var development = process.env.NODE_ENV !== 'production';
+var port = process.env.PORT || 3001;
 
 function renderApp(req, res, next) {
 	var path = url.parse(req.url).pathname;
@@ -36,6 +37,6 @@ app
 	.use('/assets', express.static(path.join(__dirname, 'assets')))
 	.use('/api', Api)
 	.use(renderApp)
-	.listen(3001, function () {
-		console.log('Point your browser at http://localhost:3001');
+	.listen(port, function () {
+		console.log('Point your browser at http://localhost:'+port);
 	});

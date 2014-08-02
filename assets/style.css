@@ -4,6 +4,9 @@ html {
 *, *:before, *:after {
 	box-sizing: inherit;
 }
+*:focus {
+	outline: 0;
+}
 
 /* site specific classes */
 body {
@@ -89,10 +92,27 @@ button {
 	cursor: pointer;
 	padding: .5em;
 }
-
+.hidden {
+	overflow: hidden;
+}
+.ani-slide {
+	transition: height .25s cubic-bezier(0.455, 0.03, 0.515, 0.955);
+}
 /* utility classes */
 .color-aaa {
 	color: #aaa;
+}
+.h-0 {
+	height: 0;
+}
+.h-18e {
+	height: 18em;
+}
+.col-3 {
+	-webkit-columns: 3 15em;
+	-moz-columns: 3 15em;
+	-o-columns: 3 15em;
+	columns: 3 15em;
 }
 .m-05e {
 	margin: .5em;

@@ -46,21 +46,9 @@ var SpellPage = React.createClass({
 	mixins: [ReactAsync.Mixin],
 	statics: {
 		getSpellList: function (cb, filters) {
-			var filter = filters.filter;
-			if (filter.length && filter !== '*' && filter !== '%') {
-				var query = filters.filterCol+'=' + filter;
-
-				if (filters.clas !== 'none') {
-					query += '&start_lvl='+filters.min_lvl
-						+'&end_lvl='+filters.max_lvl
-						+'&clas='+filters.clas;
-				}
-				superagent.get('/api/spells?'+query, function(err, res) {
-					cb(err, res ? res.body : null);
-				});
-			} else {
-				cb(err, []);
-			}
+			superagent.get('/api/spells', function(err, res) {
+				cb(err, res ? res.body : null);
+			});
 		},
 		getClassList: function (cb) {
 			superagent.get('/api/classes', function (err, res) {
@@ -72,16 +60,11 @@ var SpellPage = React.createClass({
 				cb(err, res ? res.body : null);
 			});
 		}
-		// getUserInfo: function(username, cb) {
-		// 	superagent.get(
-		// 		'http://localhost:3000/api/users/' + username,
-		// 		function(err, res) {
-		// 			cb(err, res ? res.body : null);
-		// 		});
-		// }
 	},
 	getInitialStateAsync: function (cb) {
-		this.type.getClassList(cb);
+		superagent.get('localhost:3001/api/spells', function(err, res) {
+			cb(err, res ? {spells: res.body} : null);
+		}.bind(this));
 		// this.type.getMagicSchoolList(cb);
 	},
 	render: function () {
@@ -90,43 +73,18 @@ var SpellPage = React.createClass({
 				<div className="bg-purple">
 					<PageNav currentpage="Spells"/>
 				</div>
-				<FilterableList filterCol='name' classes={this.state}/>
+				<FilterableSpellList filterCol='name' spells={this.state.spells}/>
 			</div>
 		);
 	}
 });
 
-var FilterableList = React.createClass({
-	getSpellList: function () {
-		var filter = this.state.filter;
-		if (filter.length && filter !== '*' && filter !== '%') {
-			var query = this.props.filterCol+'=' + filter;
-
-			if (this.state.clas !== 'none') {
-				query += '&start_lvl='+this.state.min_lvl
-					+'&end_lvl='+this.state.max_lvl
-					+'&clas='+this.state.clas;
-			}
-			superagent.get('/api/spells?'+query, function(err, res) {
-				if (err) {
-					console.log(err);
-				} else {
-					this.setState({
-						spells: res ? res.body : [],
-					});
-				}
-			}.bind(this));
-		} else {
-			this.setState({
-				spells: []
-			});
-		}
-	},
+var FilterableSpellList = React.createClass({
 	handleFilterChange: function (e) {
 		this.setState({
 			filter: e.target.value,
 			moreForm: false
-		}, this.getSpellList);
+		});
 	},
 	handleShowMore: function () {
 		this.setState({
@@ -140,17 +98,17 @@ var FilterableList = React.createClass({
 		if (id === 'lvl_min') {
 			this.setState({
 				min_lvl: lvl
-			}, this.getSpellList);
+			});
 		} else {
 			this.setState({
 				max_lvl: lvl
-			}, this.getSpellList);
+			});
 		}
 	},
 	handleRadioChange: function (e) {
 		this.setState({
 			clas: e.target.value
-		}, this.getSpellList);
+		});
 	},
 	getInitialState: function () {
 		return {
@@ -163,17 +121,28 @@ var FilterableList = React.createClass({
 		};
 	},
 	render: function () {
-		var spells = this.state.spells.map(function (spell) {
-			return (
-				<FilterableListItem
-					key={spell.pk}
-					item={spell}
-				/>
-			);
-		});
-		// classes = this.props.classes.map(function (clas) {
-		// 	return clas.description;
-		// }.bind(this));
+		var spells = [];
+
+		if (this.props.spells.length) {
+			spells = this.props.spells
+			.filter(function (spell) {
+				if (spell.name.toLowerCase().indexOf(this.state.filter) === -1) return false;
+				if (this.state.clas !== 'none' 
+					&& (spell[this.state.clas] === 'NULL'
+						|| Number(spell[this.state.clas]) < this.state.min_lvl
+						|| Number(spell[this.state.clas]) > this.state.max_lvl)) return false;
+				return true;
+			}.bind(this))
+			.map(function (spell) {
+				return (
+					<FilterableListItem
+						key={spell.pk}
+						item={spell}
+					/>
+				);
+			})
+			.splice(0, 50); // return no more than 100 entries to keep render times down
+		}
 		return (
 			<div>
 			<div className="bg-teal">
@@ -193,40 +162,43 @@ var FilterableList = React.createClass({
 						onClick={this.handleShowMore}>
 						{this.state.moreForm ? "Less..." : "More..."}
 					</button>
-					<div className={"w-100 boxstyle bg-teal abs-top"+(this.state.moreForm ? "" : " invis")}>
+					<div className={"w-100 boxstyle bg-teal abs-top ani-slide hidden"+(this.state.moreForm ? " h-18e" : " h-0")}>
 						<div className="p-05e">
-							<table className="w-100">
-								<tr>
-									<td className="p-05e"><label htmlFor="class">Class:</label></td>
-									<td></td>
-									<td className="p-05e"><input type="radio" name="class" onChange={this.handleRadioChange} value="none"/><label className="p-05e">(none)</label></td>
-								</tr>
-								<tr>
-									<td className="p-05e"><input type="radio" name="class" onChange={this.handleRadioChange} value="sorceror"/><label className="p-05e">Sorceror</label></td>
-									<td className="p-05e"><input type="radio" name="class" onChange={this.handleRadioChange} value="bard"/><label className="p-05e">Bard</label></td>
-									<td className="p-05e"><input type="radio" name="class" onChange={this.handleRadioChange} value="inquisitor"/><label className="p-05e">Inquisitor</label></td>
-								</tr>
-								<tr>
-									<td className="p-05e"><input type="radio" name="class" onChange={this.handleRadioChange} value="wizard"/><label className="p-05e">Wizard</label></td>
-									<td className="p-05e"><input type="radio" name="class" onChange={this.handleRadioChange} value="paladin"/><label className="p-05e">Paladin</label></td>
-									<td className="p-05e"><input type="radio" name="class" onChange={this.handleRadioChange} value="oracle"/><label className="p-05e">Oracle</label></td>
-								</tr>
-								<tr>
-									<td className="p-05e"><input type="radio" name="class" onChange={this.handleRadioChange} value="cleric"/><label className="p-05e">Cleric</label></td>
-									<td className="p-05e"><input type="radio" name="class" onChange={this.handleRadioChange} value="alchemist"/><label className="p-05e">Alchemist</label></td>
-									<td className="p-05e"><input type="radio" name="class" onChange={this.handleRadioChange} value="antipaladin"/><label className="p-05e">Antipaladin</label></td>
-								</tr>
-								<tr>
-									<td className="p-05e"><input type="radio" name="class" onChange={this.handleRadioChange} value="druid"/><label className="p-05e">Druid</label></td>
-									<td className="p-05e"><input type="radio" name="class" onChange={this.handleRadioChange} value="summoner"/><label className="p-05e">Summoner</label></td>
-									<td className="p-05e"><input type="radio" name="class" onChange={this.handleRadioChange} value="magus"/><label className="p-05e">Magus</label></td>
-								</tr>
-								<tr>
-									<td className="p-05e"><input type="radio" name="class" onChange={this.handleRadioChange} value="ranger"/><label className="p-05e">Ranger</label></td>
-									<td className="p-05e"><input type="radio" name="class" onChange={this.handleRadioChange} value="witch"/><label className="p-05e">Witch</label></td>
-									<td className="p-05e"><input type="radio" name="class" onChange={this.handleRadioChange} value="adept"/><label className="p-05e">Adept</label></td>
-								</tr>
-							</table>
+							<label htmlFor="class">Class:</label><br/>
+							<div className="col-3">
+								<input type="radio" name="class" onChange={this.handleRadioChange} value="none"/>
+								<label className="p-05e">(none)</label><br/>
+								<input type="radio" name="class" onChange={this.handleRadioChange} value="sorceror"/>
+								<label className="p-05e">Sorceror</label><br/>
+								<input type="radio" name="class" onChange={this.handleRadioChange} value="bard"/>
+								<label className="p-05e">Bard</label><br/>
+								<input type="radio" name="class" onChange={this.handleRadioChange} value="inquisitor"/>
+								<label className="p-05e">Inquisitor</label><br/>
+								<input type="radio" name="class" onChange={this.handleRadioChange} value="wizard"/>
+								<label className="p-05e">Wizard</label><br/>
+								<input type="radio" name="class" onChange={this.handleRadioChange} value="paladin"/>
+								<label className="p-05e">Paladin</label><br/>
+								<input type="radio" name="class" onChange={this.handleRadioChange} value="oracle"/>
+								<label className="p-05e">Oracle</label><br/>
+								<input type="radio" name="class" onChange={this.handleRadioChange} value="cleric"/>
+								<label className="p-05e">Cleric</label><br/>
+								<input type="radio" name="class" onChange={this.handleRadioChange} value="alchemist"/>
+								<label className="p-05e">Alchemist</label><br/>
+								<input type="radio" name="class" onChange={this.handleRadioChange} value="antipaladin"/>
+								<label className="p-05e">Antipaladin</label><br/>
+								<input type="radio" name="class" onChange={this.handleRadioChange} value="druid"/>
+								<label className="p-05e">Druid</label><br/>
+								<input type="radio" name="class" onChange={this.handleRadioChange} value="summoner"/>
+								<label className="p-05e">Summoner</label><br/>
+								<input type="radio" name="class" onChange={this.handleRadioChange} value="magus"/>
+								<label className="p-05e">Magus</label><br/>
+								<input type="radio" name="class" onChange={this.handleRadioChange} value="ranger"/>
+								<label className="p-05e">Ranger</label><br/>
+								<input type="radio" name="class" onChange={this.handleRadioChange} value="witch"/>
+								<label className="p-05e">Witch</label><br/>
+								<input type="radio" name="class" onChange={this.handleRadioChange} value="adept"/>
+								<label className="p-05e">Adept</label>
+							</div>
 						</div>
 						<div className="p-05e">
 							<label htmlhtmlFor="lvl_min">{"Minimum Spell Level ("+this.state.min_lvl+")"}</label>

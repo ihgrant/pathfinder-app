@@ -38,8 +38,8 @@ var api = express()
 			} else {
 				res.send(result);
 			}
+			db.close();
 		});
-		db.close();
 	})
 	.get('/spells/:id', function (req, res) {
 		var db = new sqlite3.Database(db_path);
@@ -49,8 +49,8 @@ var api = express()
 			} else {
 				res.send(result);
 			}
+			db.close();
 		});
-		db.close();
 	})
 	.get('/spells', function (req, res) {
 		var db = new sqlite3.Database(db_path),
@@ -58,15 +58,15 @@ var api = express()
 		params = getSpellParams(req.query);
 
 		if (params.length) query = query + ' WHERE ' + params;
-
+		console.log(query);
 		db.all(query, function (err, result) {
 			if (err) {
 				console.log(err, query);
 			} else {
 				res.send(result);
 			}
+			db.close();
 		});
-		db.close();
 	})
 	.get('/classes', function (req, res) {
 		var db = new sqlite3.Database(db_path),
