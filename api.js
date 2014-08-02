@@ -78,8 +78,8 @@ var api = express()
 			} else {
 				res.send(result);
 			}
+			db.close();
 		});
-		db.close();
 	})
 	.get('/magic_schools', function (req, res) {
 		var db = new sqlite3.Database(db_path),
@@ -91,9 +91,23 @@ var api = express()
 			} else {
 				res.send(result);
 			}
+			db.close();
 		});
-		db.close();
 	})
+	.get('/feats', function (req, res) {
+		var db = new sqlite3.Database(db_path),
+		query = 'SELECT * FROM feats_import';
+
+		db.all(query, function (err, result) {
+			if (err) {
+				console.log(err, query);
+			} else {
+				res.send(result);
+			}
+			db.close();
+		});
+	})
+
 	.get('/users/:username', function (req, res) {
 		var username = req.params.username;
 		res.send({

@@ -82,7 +82,7 @@ var SpellPage = React.createClass({
 var FilterableSpellList = React.createClass({
 	handleFilterChange: function (e) {
 		this.setState({
-			filter: e.target.value,
+			filter: e.target.value.toLowerCase(),
 			moreForm: false
 		});
 	},
@@ -133,15 +133,15 @@ var FilterableSpellList = React.createClass({
 						|| Number(spell[this.state.clas]) > this.state.max_lvl)) return false;
 				return true;
 			}.bind(this))
+			.splice(0, 50) // return no more than 50 entries to keep render times down
 			.map(function (spell) {
 				return (
-					<FilterableListItem
+					<FilterableSpell
 						key={spell.pk}
 						item={spell}
 					/>
 				);
-			})
-			.splice(0, 50); // return no more than 100 entries to keep render times down
+			});
 		}
 		return (
 			<div>
@@ -227,7 +227,7 @@ var FilterableSpellList = React.createClass({
 	}
 });
 
-var FilterableListItem = React.createClass({
+var FilterableSpell = React.createClass({
 	render: function () {
 		return (
 			<li className="p-1e">
@@ -241,6 +241,93 @@ var FilterableListItem = React.createClass({
 					<li>{'saving throw: '+this.props.item.saving_throw}</li>
 				</ul>
 				<p className="m-b-0">{this.props.item.description}</p>
+			</li>
+		);
+	}
+});
+
+var FeatPage = React.createClass({
+	mixins: [ReactAsync.Mixin],
+	statics: {
+		getFeatList: function (cb) {
+			superagent.get('localhost:3001/api/feats', function (err, res) {
+				cb(err, res ? {feats: res.body} : null);
+			});
+		}
+	},
+	getInitialStateAsync: function (cb) {
+		this.type.getFeatList(cb);
+	},
+	render: function () {
+		return (
+			<div className="FeatPage">
+				<div className="bg-purple">
+					<PageNav currentpage="Feats"/>
+				</div>
+				<FilterableFeatList feats={this.state.feats}/>
+			</div>
+		);
+	}
+});
+
+var FilterableFeatList = React.createClass({
+	handleFilterChange: function (e) {
+		this.setState({
+			filter: e.target.value.toLowerCase(),
+		});
+	},
+	getInitialState: function () {
+		return {
+			filter: ''
+		};
+	},
+	render: function () {
+		var feats = null;
+
+		if (this.props.feats.length) {
+			feats = this.props.feats
+			.filter(function (feat) {
+				return (feat.name.toLowerCase().indexOf(this.state.filter) !== -1);
+			}.bind(this))
+			.splice(0, 50)
+			.map(function (feat) {
+				return (
+					<FilterableFeat key={feat.id} feat={feat} />
+				);
+			});
+		}
+
+		return (
+			<div>
+			<div className="bg-teal">
+				<form className="container pos-rel">
+					<input type="search"
+						className="w-90 boxstyle bg-i"
+						placeholder="Filter feats..."
+						onChange={this.handleFilterChange}/>
+				</form>
+			</div>
+			<div className="bg-white">
+				<ul className="container ul-none">
+					{feats}
+				</ul>
+			</div>
+			</div>
+		);
+	}
+});
+
+var FilterableFeat = React.createClass({
+	render: function () {
+		var text = [
+			<p className="m-b-0">{this.props.feat.benefit}</p>,
+			(this.props.feat.special.length ? <p className="m-b-0">{this.props.feat.special}</p> : null)
+		];
+		return (
+			<li className="p-1e">
+				<h3 className="m-t-0">{this.props.feat.name}</h3>
+				<p className="m-05e italic color-aaa">{this.props.feat.type}</p>
+				{text}
 			</li>
 		);
 	}
@@ -270,6 +357,7 @@ var App = React.createClass({
 				<Pages className="App bg-bluewhite" path={this.props.path}>
 					<Page path="/" handler={MainPage} />
 					<Page path="/spells" handler={SpellPage} />
+					<Page path="/feats" handler={FeatPage} />
 					<NotFound handler={NotFoundHandler} />
 				</Pages>
 			</html>
