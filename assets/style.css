@@ -52,6 +52,9 @@ body {
 .bg-i {
 	background-color: inherit;
 }
+.fill-bluewhite {
+	fill: #f0effa;
+}
 .container {
 	margin: 0 auto;
 	max-width: 50em;
@@ -114,6 +117,9 @@ button {
 	-o-columns: 3 15em;
 	columns: 3 15em;
 }
+.fl-l {
+	float: left;
+}
 .m-05e {
 	margin: .5em;
 }
@@ -144,6 +150,13 @@ button {
 .ul-none {
 	list-style: none;
 	padding: 0;
+}
+.icon-1-5e {
+	width: 1.5em;
+	height: 1.5em;
+}
+.bold {
+	font-weight: 700;
 }
 .italic {
 	font-style: italic;
