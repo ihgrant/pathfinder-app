@@ -25,14 +25,22 @@ var FilterableFeatList = React.createClass({
 		});
 	},
 	addFeat: function (e) {
-		var prereqs = this.state.prereqs;
-		prereqs.push(e.currentTarget.dataset.name);
-		this.setState({
-			prereqs: prereqs
-		});
+		if (this.state.filterType === 'prereqs') {
+			var prereqs = this.state.prereqs;
+			prereqs.push(e.currentTarget.dataset.id);
+			this.setState({
+				prereqs: prereqs
+			});
+		}
 	},
 	removeFeat: function (e) {
-		//
+		if (this.state.filterType === 'prereqs') {
+			var prereqs = this.state.prereqs;
+			prereqs.splice(prereqs.indexOf(e.currentTarget.dataset.id), 1);
+			this.setState({
+				prereqs: prereqs
+			});
+		}
 	},
 	getInitialState: function () {
 		// if (!localStorage.feats_state) {
@@ -50,7 +58,8 @@ var FilterableFeatList = React.createClass({
 		localStorage.feats_state = JSON.stringify(this.state);
 	},
 	render: function () {
-		var feats = null;
+		var feats = null,
+		chosenfeats = null;
 
 		if (this.props.feats.length) {
 			feats = this.props.feats
@@ -69,9 +78,17 @@ var FilterableFeatList = React.createClass({
 			}.bind(this))
 			.splice(0, 50)
 			.map(function (feat) {
-				return (
-					<FilterableFeat key={feat.id} feat={feat} addFeat={this.addFeat} />
-				);
+				return <FilterableFeat key={feat.id} feat={feat} addFeat={this.addFeat} />;
+			}.bind(this));
+		}
+
+		if (this.state.prereqs.length && this.state.filterType === 'prereqs') {
+			chosenfeats = this.props.feats
+			.filter(function (feat) {
+				return (this.state.prereqs.indexOf(feat.id.toString()) !== -1);
+			}.bind(this))
+			.map(function (feat) {
+				return <ChosenFeat key={feat.id} feat={feat} removeFeat={this.removeFeat} />;
 			}.bind(this));
 		}
 
@@ -97,6 +114,11 @@ var FilterableFeatList = React.createClass({
 						</div>
 					</div>
 				</form>
+			</div>
+			<div className="bg-bluewhite">
+				<ul className="container ul-none">
+					{chosenfeats}
+				</ul>
 			</div>
 			<div className="bg-white">
 				<ul className="container ul-none">

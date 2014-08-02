@@ -52,6 +52,9 @@ body {
 .bg-i {
 	background-color: inherit;
 }
+.fill-white {
+	fill: #fff;
+}
 .fill-bluewhite {
 	fill: #f0effa;
 }
@@ -119,6 +122,9 @@ button {
 }
 .fl-l {
 	float: left;
+}
+.m-0 {
+	margin: 0;
 }
 .m-05e {
 	margin: .5em;

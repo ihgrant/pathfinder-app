@@ -12,7 +12,7 @@ var FilterableFeat = React.createClass({
 			(this.props.feat.special.length ? <p className="m-b-0">{this.props.feat.special}</p> : null)
 		];
 		return (
-			<li className="p-1e" onClick={this.props.addFeat} data-name={this.props.feat.name}>
+			<li className="p-1e" onClick={this.props.addFeat} data-id={this.props.feat.id}>
 				<PlusIcon classes="icon-1-5e fill-bluewhite fl-l"/><h3 className="m-t-0">{this.props.feat.name}</h3>
 				<p className="m-05e italic color-aaa">{this.props.feat.type}</p>
 				{text}

@@ -8,10 +8,10 @@ var DeleteIcon = require('./deleteicon.jsx');
 var ChosenFeat = React.createClass({
 	render: function () {
 		return (
-			<li className="bg-bluewhite">
-				<DeleteIcon classes="icon-1-5e fill-bluewhite fl-l"/>
-				<p>
-					<span className="bold">{this.props.feat.name}</span>
+			<li className="p-05e" onClick={this.props.removeFeat} data-id={this.props.feat.id}>
+				<DeleteIcon classes="icon-1-5e fill-white fl-l"/>
+				<p className="m-0">
+					<span className="bold">{this.props.feat.name+': '}</span>
 					{this.props.feat.description}
 				</p>
 			</li>
