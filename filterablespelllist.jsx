@@ -72,7 +72,7 @@ var FilterableSpellList = React.createClass({
 				return (
 					<FilterableSpell
 						key={spell.pk}
-						item={spell}
+						spell={spell}
 					/>
 				);
 			});

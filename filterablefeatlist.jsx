@@ -65,7 +65,8 @@ var FilterableFeatList = React.createClass({
 			feats = this.props.feats
 			.filter(function (feat) { // match for prerequisites (if applicable)
 				if (this.state.filterType === 'prereqs' && feat.prerequisite_feats.length) {
-					if (this.state.prereqs.indexOf(feat.prerequisite_feats) !== -1) {
+					var feat_prereqs = feat.prerequisite_feats.split(',');
+					if (this.state.prereqs.indexOf(feat_prereqs) !== -1) {
 						return true;
 					} else {
 						return false;
@@ -107,9 +108,11 @@ var FilterableFeatList = React.createClass({
 					</button>
 					<div className={"w-100 boxstyle bg-teal abs-top ani-slide hidden"+(this.state.moreForm ? " h-18e" : " h-0")}>
 						<div className="p-05e">
-							<input type="radio" name="filter-type" defaultChecked onChange={this.handleRadioChange} value="all"/>
+							<input type="radio" name="filter-type" defaultChecked value="all"
+								onChange={this.handleRadioChange}/>
 							<label className="p-05e">Filter all feats</label><br/>
-							<input type="radio" name="filter-type" onChange={this.handleRadioChange} value="prereqs"/>
+							<input type="radio" name="filter-type" value="prereqs"
+								onChange={this.handleRadioChange}/>
 							<label className="p-05e">Filter by prerequisites</label><br/>
 						</div>
 					</div>

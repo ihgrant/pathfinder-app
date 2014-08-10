@@ -8,16 +8,16 @@ var FilterableSpell = React.createClass({
 	render: function () {
 		return (
 			<li className="p-1e">
-				<h3 className="m-t-0">{this.props.item.name}</h3>
-				<p className="m-05e italic color-aaa">{this.props.item.spell_level}</p>
+				<h3 className="m-t-0">{this.props.spell.name}</h3>
+				<p className="m-05e italic color-aaa">{this.props.spell.school+'; '+this.props.spell.spell_level}</p>
 				<ul>
-					<li>{'casting time: '+this.props.item.casting_time}</li>
-					<li>{'range: '+this.props.item.range}</li>
-					{this.props.item.area.length ? <li>{'area: '+this.props.item.area}</li> : null}
-					<li>{'duration: '+this.props.item.duration}</li>
-					<li>{'saving throw: '+this.props.item.saving_throw}</li>
+					<li>{'casting time: '+this.props.spell.casting_time}</li>
+					<li>{'range: '+this.props.spell.range}</li>
+					{this.props.spell.area.length ? <li>{'area: '+this.props.spell.area}</li> : null}
+					<li>{'duration: '+this.props.spell.duration}</li>
+					<li>{'saving throw: '+this.props.spell.saving_throw}</li>
 				</ul>
-				<p className="m-b-0">{this.props.item.description}</p>
+				<p className="m-b-0">{this.props.spell.description}</p>
 			</li>
 		);
 	}
