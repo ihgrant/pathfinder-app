@@ -18,6 +18,7 @@ var MainPage = React.createClass({
 		return (
 			<div className="MainPage container">
 				<a href="/spells">Spells</a>
+				<a href="/feats">Feats</a>
 			</div>
 		);
 	}
@@ -26,12 +27,12 @@ var MainPage = React.createClass({
 var SpellPage = require('./spellpage.jsx');
 var FeatPage = require('./featpage.jsx');
 
-
 var NotFoundHandler = React.createClass({
-
 	render: function() {
 		return (
-			<p>Page not found</p>
+			<div className="a-c">
+				<p>Page not found</p>
+			</div>
 		);
 	}
 });
@@ -45,6 +46,7 @@ var App = React.createClass({
 					<link rel="stylesheet" href="/assets/normalize.css" />
 					<link href='http://fonts.googleapis.com/css?family=Old+Standard+TT:400,400italic,700' rel='stylesheet' type='text/css' />
 					<link href='http://fonts.googleapis.com/css?family=Vollkorn:700' rel='stylesheet' type='text/css' />
+					<link rel="stylesheet" href="/assets/utility.css" />
 					<link rel="stylesheet" href="/assets/style.css" />
 					<script src="/assets/bundle.js" />
 				</head>

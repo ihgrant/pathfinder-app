@@ -1,0 +1,31 @@
+.tbl {
+    display: table;
+    table-layout: auto;
+}
+.tbl-row {
+    display: table-row;
+}
+.tbl-cell {
+    display: table-cell;
+}
+.fl-l {
+    float: left;
+}
+.m-0 {
+    margin: 0;
+}
+.m-05e {
+    margin: .5em;
+}
+.m-t-0 {
+    margin-top: 0;
+}
+.m-b-0 {
+    margin-bottom: 0;
+}
+.p-05e {
+    padding: .5em;
+}
+.p-1e {
+    padding: 1em;
+}

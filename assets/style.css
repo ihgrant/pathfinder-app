@@ -15,16 +15,6 @@ body {
 	font-family: 'Old Standard TT', serif;
 	color: #444;
 }
-.tbl {
-	display: table;
-	table-layout: auto;
-}
-.tbl-row {
-	display: table-row;
-}
-.tbl-cell {
-	display: table-cell;
-}
 .bg-purple .current {
 	background: #3c1436;
 	background: -moz-linear-gradient(top, #3c1436 0%, #2c7083 100%);
@@ -119,27 +109,6 @@ button {
 	-moz-columns: 3 15em;
 	-o-columns: 3 15em;
 	columns: 3 15em;
-}
-.fl-l {
-	float: left;
-}
-.m-0 {
-	margin: 0;
-}
-.m-05e {
-	margin: .5em;
-}
-.m-t-0 {
-	margin-top: 0;
-}
-.m-b-0 {
-	margin-bottom: 0;
-}
-.p-05e {
-	padding: .5em;
-}
-.p-1e {
-	padding: 1em;
 }
 .w-10 {
 	width: calc(10% - 2px);
