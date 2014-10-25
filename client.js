@@ -16,14 +16,16 @@ var Link = ReactRouter.Link;
 var MainPage = React.createClass({
 	render: function () {
 		return (
-			<div className="MainPage container">
-				<a href="/spells">Spells</a>
-				<a href="/feats">Feats</a>
+			<div className="MainPage">
+				<div className="bg-purple">
+					<PageNav currentpage="Home"/>
+				</div>
 			</div>
 		);
 	}
 });
 
+var PageNav = require('./pagenav.jsx');
 var SpellPage = require('./spellpage.jsx');
 var FeatPage = require('./featpage.jsx');
 
@@ -38,7 +40,6 @@ var NotFoundHandler = React.createClass({
 });
 
 var App = React.createClass({
-
 	render: function() {
 		return (
 			<html>

@@ -7,7 +7,7 @@ var ReactAsync = require('react-async');
 var superagent = require('superagent');
 
 var PageNav = require('./pagenav.jsx');
-var FilterableSpellList = require('./filterablespelllist.jsx');
+var FilterableSpellList = require('./components/filterablespelllist.jsx');
 
 var SpellPage = React.createClass({
 	mixins: [ReactAsync.Mixin],

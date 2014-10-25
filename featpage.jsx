@@ -7,7 +7,7 @@ var ReactAsync = require('react-async');
 var superagent = require('superagent');
 
 var PageNav = require('./pagenav.jsx');
-var FilterableFeatList = require('./filterablefeatlist.jsx');
+var FilterableFeatList = require('./components/filterablefeatlist.jsx');
 
 var FeatPage = React.createClass({
 	mixins: [ReactAsync.Mixin],

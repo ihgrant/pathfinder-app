@@ -3,7 +3,7 @@
 var express = require('express');
 var sqlite3 = require('sqlite3').verbose();
 
-var db_path = 'data/pathfinder.sqlite';
+var DB_PATH = 'data/pathfinder.sqlite';
 
 var getSpellParams = function (query) {
 	var params = '';
@@ -26,7 +26,7 @@ var getSpellParams = function (query) {
 
 var api = express()
 	.get('/spells/sorceror', function (req, res) {
-		var db = new sqlite3.Database(db_path),
+		var db = new sqlite3.Database(DB_PATH),
 		query = 'SELECT * FROM spells_import WHERE sorceror!="NULL"',
 		params = getSpellParams(req.query, 'sorceror');
 
@@ -42,8 +42,10 @@ var api = express()
 		});
 	})
 	.get('/spells/:id', function (req, res) {
-		var db = new sqlite3.Database(db_path);
-		db.all('SELECT * FROM spells_import WHERE id='+req.params.id, function (err, result) {
+		var db = new sqlite3.Database(DB_PATH),
+		query = 'SELECT * FROM spells_import WHERE id='+req.params.id;
+
+		db.all(query, function (err, result) {
 			if (err) {
 				console.log(err, query);
 			} else {
@@ -53,12 +55,12 @@ var api = express()
 		});
 	})
 	.get('/spells', function (req, res) {
-		var db = new sqlite3.Database(db_path),
+		var db = new sqlite3.Database(DB_PATH),
 		query = 'SELECT * FROM spells_import',
 		params = getSpellParams(req.query);
 
 		if (params.length) query = query + ' WHERE ' + params;
-		console.log(query);
+
 		db.all(query, function (err, result) {
 			if (err) {
 				console.log(err, query);
@@ -69,7 +71,7 @@ var api = express()
 		});
 	})
 	.get('/classes', function (req, res) {
-		var db = new sqlite3.Database(db_path),
+		var db = new sqlite3.Database(DB_PATH),
 		query = 'SELECT * FROM classes';
 
 		db.all(query, function (err, result) {
@@ -82,7 +84,7 @@ var api = express()
 		});
 	})
 	.get('/magic_schools', function (req, res) {
-		var db = new sqlite3.Database(db_path),
+		var db = new sqlite3.Database(DB_PATH),
 		query = 'SELECT * FROM magic_schools';
 
 		db.all(query, function (err, result) {
@@ -95,7 +97,7 @@ var api = express()
 		});
 	})
 	.get('/feats', function (req, res) {
-		var db = new sqlite3.Database(db_path),
+		var db = new sqlite3.Database(DB_PATH),
 		query = 'SELECT * FROM feats_import';
 
 		db.all(query, function (err, result) {

@@ -5,8 +5,13 @@
 var React = require('react');
 
 var FilterableSpell = require('./filterablespell.jsx');
+var SliderInput = require('./sliderinput.jsx');
 
 var FilterableSpellList = React.createClass({
+	propTypes: {
+		filterCol: React.PropTypes.string,
+		spells: React.PropTypes.array
+	},
 	handleFilterChange: function (e) {
 		this.setState({
 			filter: e.target.value.toLowerCase(),
@@ -19,18 +24,19 @@ var FilterableSpellList = React.createClass({
 		});
 		return false;
 	},
-	handleRangeValues: function (e) {
+	handleMinValue: function (e) {
 		var lvl = e.target.value,
 		id = e.target.id;
-		if (id === 'lvl_min') {
-			this.setState({
-				min_lvl: lvl
-			});
-		} else {
-			this.setState({
-				max_lvl: lvl
-			});
-		}
+		this.setState({
+			min_lvl: lvl
+		});
+	},
+	handleMaxValue: function (e) {
+		var lvl = e.target.value,
+		id = e.target.id;
+		this.setState({
+			max_lvl: lvl
+		});
 	},
 	handleRadioChange: function (e) {
 		this.setState({
@@ -38,18 +44,14 @@ var FilterableSpellList = React.createClass({
 		});
 	},
 	getInitialState: function () {
-		// if (!localStorage.spell_state) {
-			return {
-				filter: '',
-				spells: [],
-				moreForm: false,
-				min_lvl: 0,
-				max_lvl: 9,
-				clas: 'none'
-			};
-		// } else {
-		// 	return JSON.parse(localStorage.spell_state);
-		// }
+		return {
+			filter: '',
+			spells: [],
+			moreForm: false,
+			min_lvl: 0,
+			max_lvl: 9,
+			clas: 'none'
+		};
 	},
 	componentWillUpdate: function () {
 		localStorage.spell_state = JSON.stringify(this.state);
@@ -135,18 +137,22 @@ var FilterableSpellList = React.createClass({
 							</div>
 						</div>
 						<div className="p-05e">
-							<label htmlhtmlFor="lvl_min">{"Minimum Spell Level ("+this.state.min_lvl+")"}</label>
-							<input id="lvl_min" name="lvl_min" type="range" min="0" max="9"
-								defaultValue={this.state.min_lvl}
-								onChange={this.handleRangeValues}
-							/>
+							<SliderInput name="min_lvl"
+								label={"Minimum Spell Level ("+this.state.min_lvl+")"}
+								min={0}
+								max={9}
+								defaultValue={0}
+								handleChange={this.handleMinValue}
+								/>
 						</div>
 						<div className="p-05e">
-							<label htmlhtmlFor="lvl_max">{"Maximum Spell Level ("+this.state.max_lvl+")"}</label>
-							<input id="lvl_max" name="lvl_max" type="range" min="0" max="9"
-								defaultValue={this.state.max_lvl}
-								onChange={this.handleRangeValues}
-							/>
+							<SliderInput name="max_lvl"
+								label={"Maximum Spell Level ("+this.state.max_lvl+")"}
+								min={0}
+								max={9}
+								defaultValue={9}
+								handleChange={this.handleMaxValue}
+								/>
 						</div>
 					</div>
 				</form>
