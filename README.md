@@ -7,10 +7,10 @@ a minimal web app that allows for quick searching and filtering of spells from t
 
 ## installation
 
-This project requires that you have [nodejs][] version 0.10 or higher installed.
+This project requires that you have [nodejs][] version 0.10.x installed.
 
 after you download the files or clone the repo, open Terminal, navigate to the base directory, and run `npm install`. when that's finished, enter `npm run start` and navigate to the specified url in your browser of choice.
 
-[nodejs]: nodejs.org
+[nodejs]: https://nodejs.org
 
 All content is (c) Paizo Publishing, LLC.
