@@ -6,7 +6,8 @@ var express = require('express');
 var browserify = require('connect-browserify');
 var ReactAsync = require('react-async');
 var nodejsx = require('node-jsx').install();
-var Api = require('./api');
+// var Api = require('./api');
+var Api = require('./pg-api');
 var App = require('./client');
 
 var development = process.env.NODE_ENV !== 'production';

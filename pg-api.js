@@ -1,9 +1,10 @@
+/* jshint node:true */
 'use strict';
 
 var express = require('express');
-var sqlite3 = require('sqlite3').verbose();
+var pg = require('pg');
 
-var DB_PATH = 'data/pathfinder.sqlite';
+var DB_PATH = process.env.DATABASE_URL || 'localhost';
 
 var getSpellParams = function (query) {
 	var params = '';
@@ -26,96 +27,108 @@ var getSpellParams = function (query) {
 
 var api = express()
 	.get('/spells/sorceror', function (req, res) {
-		var db = new sqlite3.Database(DB_PATH),
-		query = 'SELECT * FROM spells_import WHERE sorceror!="NULL"',
-		params = getSpellParams(req.query, 'sorceror');
-
-		if (params.length) query = query + params;
-
-		db.all(query, function (err, result) {
+		pg.connect(DB_PATH, function(err, client, done) {
 			if (err) {
-				console.log(err, query);
+				res.status(500).send(err);
 			} else {
-				res.send(result);
+				var query = 'SELECT * FROM spells_import WHERE sorceror!="NULL"',
+				params = getSpellParams(req.query, 'sorceror');
+				if (params.length) query = query + params;
+				client.query(query, function (err, result) {
+					done();
+					if (err) {
+						console.log(err, query);
+					} else {
+						res.send(result.rows);
+					}
+				});
 			}
-			db.close();
 		});
 	})
 	.get('/spells/:id', function (req, res) {
-		var db = new sqlite3.Database(DB_PATH),
-		query = 'SELECT * FROM spells_import WHERE id='+req.params.id;
-
-		db.all(query, function (err, result) {
+		pg.connect(DB_PATH, function(err, client, done) {
 			if (err) {
-				console.log(err, query);
+				res.status(500).send(err);
 			} else {
-				res.send(result);
+				var query = 'SELECT * FROM spells_import WHERE id='+req.params.id;
+				client.query(query, function (err, result) {
+					done();
+					if (err) {
+						console.log(err, query);
+					} else {
+						res.send(result.rows);
+					}
+				});
 			}
-			db.close();
 		});
 	})
 	.get('/spells', function (req, res) {
-		var db = new sqlite3.Database(DB_PATH),
-		query = 'SELECT * FROM spells_import',
-		params = getSpellParams(req.query);
-
-		if (params.length) query = query + ' WHERE ' + params;
-
-		db.all(query, function (err, result) {
+		pg.connect(DB_PATH, function(err, client, done) {
 			if (err) {
-				console.log(err, query);
+				res.status(500).send(err);
 			} else {
-				res.send(result);
+				var query = 'SELECT * FROM spells_import';
+				client.query(query, function (err, result) {
+					done();
+					if (err) {
+						console.log(err, query);
+					} else {
+						res.send(result.rows);
+					}
+				});
 			}
-			db.close();
 		});
 	})
 	.get('/classes', function (req, res) {
-		var db = new sqlite3.Database(DB_PATH),
-		query = 'SELECT * FROM classes';
-
-		db.all(query, function (err, result) {
+		pg.connect(DB_PATH, function(err, client, done) {
 			if (err) {
-				console.log(err, query);
+				res.status(500).send(err);
 			} else {
-				res.send(result);
+				var query = 'SELECT * FROM classes';
+				client.query(query, function (err, result) {
+					done();
+					if (err) {
+						console.log(err, query);
+					} else {
+						res.send(result.rows);
+					}
+				});
 			}
-			db.close();
 		});
 	})
 	.get('/magic_schools', function (req, res) {
-		var db = new sqlite3.Database(DB_PATH),
-		query = 'SELECT * FROM magic_schools';
-
-		db.all(query, function (err, result) {
+		pg.connect(DB_PATH, function(err, client, done) {
 			if (err) {
-				console.log(err, query);
+				res.status(500).send(err);
 			} else {
-				res.send(result);
+				var query = 'SELECT * FROM magic_schools';
+				client.query(query, function (err, result) {
+					done();
+					if (err) {
+						console.log(err, query);
+					} else {
+						res.send(result.rows);
+					}
+				});
 			}
-			db.close();
 		});
 	})
 	.get('/feats', function (req, res) {
-		var db = new sqlite3.Database(DB_PATH),
-		query = 'SELECT * FROM feats_import';
-
-		db.all(query, function (err, result) {
+		pg.connect(DB_PATH, function(err, client, done) {
 			if (err) {
-				console.log(err, query);
+				res.status(500).send(err);
 			} else {
-				res.send(result);
+				var query = 'SELECT * FROM feats_import';
+				client.query(query, function (err, result) {
+					done();
+					if (err) {
+						console.log(err, query);
+					} else {
+						res.send(result.rows);
+					}
+				});
 			}
-			db.close();
 		});
 	});
-
-	// .get('/users/:username', function (req, res) {
-	// 	var username = req.params.username;
-	// 	res.send({
-	// 		username: username,
-	// 		name: username.charAt(0).toUpperCase() + username.slice(1)
-	// 	});
-	// });
 
 module.exports = api;
