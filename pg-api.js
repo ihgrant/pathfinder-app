@@ -4,7 +4,8 @@
 var express = require('express');
 var pg = require('pg');
 
-var DB_PATH = process.env.DATABASE_URL || 'localhost';
+var DB_PATH = process.env.DATABASE_URL
+	|| 'postgres://ian@localhost/ian';
 
 var getSpellParams = function (query) {
 	var params = '';
@@ -36,6 +37,7 @@ var api = express()
 				if (params.length) query = query + params;
 				client.query(query, function (err, result) {
 					done();
+					console.log(result.rows);
 					if (err) {
 						console.log(err, query);
 					} else {

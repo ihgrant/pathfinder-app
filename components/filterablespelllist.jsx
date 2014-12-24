@@ -6,6 +6,7 @@ var React = require('react');
 
 var FilterableSpell = require('./filterablespell.jsx');
 var SliderInput = require('./sliderinput.jsx');
+// var ClassRadio = require('./classradio.jsx');
 
 var FilterableSpellList = React.createClass({
 	propTypes: {
@@ -74,11 +75,11 @@ var FilterableSpellList = React.createClass({
 				return (
 					<FilterableSpell
 						key={spell.pk}
-						spell={spell}
-					/>
+						spell={spell} />
 				);
 			});
 		}
+
 		return (
 			<div>
 			<div className="bg-teal">
@@ -88,8 +89,7 @@ var FilterableSpellList = React.createClass({
 						className="w-90 boxstyle bg-i"
 						autofocus
 						placeholder={"Filter "+this.props.filterCol+"..."}
-						onChange={this.handleFilterChange}
-					/>
+						onChange={this.handleFilterChange} />
 					<span className="abs-inputright">
 						{this.state.clas !=='none' ? this.state.clas+","+" level "+this.state.min_lvl+"-"+this.state.max_lvl : ""}
 					</span>
