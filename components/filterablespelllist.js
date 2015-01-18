@@ -1,12 +1,8 @@
-/**
- * @jsx React.DOM
- */
-
 var React = require('react');
 
-var FilterableSpell = require('./filterablespell.jsx');
-var SliderInput = require('./sliderinput.jsx');
-// var ClassRadio = require('./classradio.jsx');
+var FilterableSpell = require('./filterablespell');
+var SliderInput = require('./sliderinput');
+// var ClassRadio = require('./classradio');
 
 var FilterableSpellList = React.createClass({
 	propTypes: {

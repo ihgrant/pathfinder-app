@@ -1,11 +1,7 @@
-/**
- * @jsx React.DOM
- */
-
 var React = require('react');
 
-var FilterableFeat = require('./filterablefeat.jsx');
-var ChosenFeat = require('./chosenfeat.jsx');
+var FilterableFeat = require('./filterablefeat');
+var ChosenFeat = require('./chosenfeat');
 
 var FilterableFeatList = React.createClass({
 	handleFilterChange: function (e) {

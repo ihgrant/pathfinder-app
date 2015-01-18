@@ -1,40 +1,22 @@
 {
   "name": "pathfinder-app",
-  "version": "0.0.2",
+  "version": "0.1.1",
   "description": "pathfinder app for spell quicksearch",
   "main": "./server.js",
-  "browser": "./client.js",
-  "browserify": {
-    "transform": [
-      [
-        "reactify",
-        {
-          "harmony": true
-        }
-      ]
-    ]
-  },
   "dependencies": {
-    "express": "~4.1.1",
-    "fibers": "~1.0.1",
-    "node-jsx": "~0.10.0",
-    "pg": "^4.1.1",
-    "react": "~0.10.0",
-    "react-async": "~0.9.1",
-    "react-router-component": "~0.18.2",
-    "sqlite3": "^2.2.4",
-    "superagent": "~0.18.0"
+    "express": "^4.x.x",
+    "pg": "^4.x.x"
   },
   "devDependencies": {
-    "reactify": "~0.13.1",
-    "envify": "~1.2.0",
-    "browserify": "~3.44.2",
-    "connect-browserify": "~2.0.1",
-    "uglify-js": "~2.4.13",
-    "supervisor": "~0.6.0"
+    "jsx-loader": "^0.12.2",
+    "react": "^0.12.x",
+    "react-router": "^0.11.x",
+    "superagent": "^0.18.x",
+    "supervisor": "^0.6.0",
+    "webpack": "^1.5.1"
   },
   "engines": {
-    "node": "0.10.x"
+    "node": "^0.10.x"
   },
   "repository": {
     "type": "git",
@@ -42,11 +24,13 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "supervisor -i node_modules -e js,jsx server.js",
+    "watch-api": "supervisor --watch server.js,api.js server",
+    "watch-webpack": "webpack -w -d --colors",
+    "start": "npm run watch-api & npm run watch-webpack",
     "build": "NODE_ENV=production browserify ./ | uglifyjs -cm 2>/dev/null > ./assets/bundle.js",
     "start-prod": "NODE_ENV=production node server.js",
     "clean": "rm -f ./assets/bundle.js"
   },
-  "author": "",
+  "author": "ihgrant",
   "license": "MIT"
 }

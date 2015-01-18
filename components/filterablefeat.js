@@ -1,9 +1,5 @@
-/**
- * @jsx React.DOM
- */
-
 var React = require('react');
-var PlusIcon = require('./plusicon.jsx');
+var PlusIcon = require('./plusicon');
 
 var FilterableFeat = React.createClass({
 	render: function () {

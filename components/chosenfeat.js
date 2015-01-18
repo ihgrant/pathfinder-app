@@ -1,9 +1,5 @@
-/**
- * @jsx React.DOM
- */
-
 var React = require('react');
-var DeleteIcon = require('./deleteicon.jsx');
+var DeleteIcon = require('./deleteicon');
 
 var ChosenFeat = React.createClass({
 	render: function () {
