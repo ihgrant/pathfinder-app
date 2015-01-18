@@ -27,9 +27,9 @@
     "watch-api": "supervisor --watch server.js,api.js server",
     "watch-webpack": "webpack -w -d --colors",
     "start": "npm run watch-api & npm run watch-webpack",
-    "build": "NODE_ENV=production browserify ./ | uglifyjs -cm 2>/dev/null > ./assets/bundle.js",
+    "build": "webpack -p --progress --colors",
     "start-prod": "NODE_ENV=production node server.js",
-    "clean": "rm -f ./assets/bundle.js"
+    "clean": "rm -f ./public/js/bundle.js"
   },
   "author": "ihgrant",
   "license": "MIT"

@@ -9,6 +9,7 @@ var HomePage = require('./homepage');
 var SpellPage = require('./spellpage');
 var FeatPage = require('./featpage');
 var PageNav = require('./pagenav');
+var Footer = require('./footer');
 
 var App = React.createClass({
 	render: function() {
@@ -16,6 +17,7 @@ var App = React.createClass({
 			<div>
 				<PageNav />
 				<RouteHandler />
+				<Footer />
 			</div>
 		);
 	}

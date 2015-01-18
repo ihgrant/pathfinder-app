@@ -18,7 +18,7 @@ var SliderInput = React.createClass({
 					type="range"
 					min={this.props.min}
 					max={this.props.max}
-					defaultValue={this.props.min}
+					defaultValue={this.props.defaultValue}
 					onChange={this.props.handleChange} />
 			</div>
 		);

@@ -9,11 +9,11 @@ var FilterableFeatList = React.createClass({
 			filter: e.target.value.toLowerCase(),
 		});
 	},
-	handleShowMore: function () {
+	handleShowMore: function (e) {
 		this.setState({
 			moreForm: !this.state.moreForm
 		});
-		return false;
+		e.preventDefault();
 	},
 	handleRadioChange: function (e) {
 		this.setState({
