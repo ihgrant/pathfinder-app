@@ -5,6 +5,10 @@ a minimal web app that allows for quick searching and filtering of spells from t
 [CSVs]: http://www.pathfindercommunity.net/home/databases
 [react-quickstart]: https://github.com/andreypopp/react-quickstart
 
+## demo
+
+http://pathfinder-app.herokuapp.com/#/
+
 ## installation
 
 This project requires that you have [nodejs][] version 0.10.x installed.
