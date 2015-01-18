@@ -13,4 +13,11 @@ after you download the files or clone the repo, open Terminal, navigate to the b
 
 [nodejs]: https://nodejs.org
 
-All content is (c) Paizo Publishing, LLC.
+## to do
+
+-	make it more mobile-friendly
+-	support url queries corresponding to filter input
+-	filter spells by magic school
+
+---
+All RPG content is (c) Paizo Publishing, LLC.
