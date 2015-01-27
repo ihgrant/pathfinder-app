@@ -1,17 +1,5 @@
-html {
-	box-sizing: border-box;
-}
-*, *:before, *:after {
-	box-sizing: inherit;
-}
-*:focus {
-	outline: 0;
-}
-
 /* site specific classes */
 body {
-	margin: 0;
-	padding: 0;
 	font-family: 'Old Standard TT', serif;
 	color: #444;
 }
@@ -48,24 +36,13 @@ body {
 .fill-bluewhite {
 	fill: #f0effa;
 }
-.container {
-	margin: 0 auto;
-	max-width: 50em;
-}
-.boxstyle {
-	border: none;
-/*	box-shadow: inset 2px -2px 0 #333;*/
-}
 h1, h2, h3, h4, h5, h6 {
 	font-family: 'Vollkorn', serif;
 }
-/*li, p, input, button, label {
-	font-family: 'Old Standard TT', serif;
-}*/
-p {
+/*p {
 	line-height: 1.5em;
 	text-rendering: optimizeLegibility;
-}
+}*/
 a {
 	color: inherit;
 }
@@ -76,7 +53,7 @@ a:visited {
 	color: #fff;
 	background-color: #6083CE;
 }*/
-input[type="search"],
+/*input[type="search"],
 input[type="text"],
 input[type="number"] {
 	line-height: 2em;
@@ -87,7 +64,7 @@ input[type="number"] {
 button {
 	cursor: pointer;
 	padding: .5em;
-}
+}*/
 .hidden {
 	overflow: hidden;
 }
@@ -104,7 +81,7 @@ button {
 .h-18e {
 	height: 18em;
 }
-.col-3 {
+/*.col-3 {
 	-webkit-columns: 3 15em;
 	-moz-columns: 3 15em;
 	-o-columns: 3 15em;
@@ -118,7 +95,7 @@ button {
 }
 .w-100 {
 	width: 100%;
-}
+}*/
 .pos-rel {
 	position: relative;
 }

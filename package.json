@@ -9,6 +9,7 @@
   },
   "devDependencies": {
     "jsx-loader": "^0.12.2",
+    "lodash": "^3.0.0",
     "react": "^0.12.x",
     "react-router": "^0.11.x",
     "superagent": "^0.18.x",

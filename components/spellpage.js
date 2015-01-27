@@ -1,6 +1,7 @@
 var React = require('react');
 // var ReactAsync = require('react-async');
 var superagent = require('superagent');
+var _ = require('lodash');
 
 var PageNav = require('./pagenav');
 var FilterableSpellList = require('./filterablespelllist');
@@ -11,17 +12,27 @@ var SpellPage = React.createClass({
 			if (err) {
 				console.log(err);
 			} else {
+				var spells = res.body;
+				var schools = _.uniq(spells, 'school');
 				this.setState({
-					spells: res.body
+					spells: spells,
+					schools: schools
+				})
+			}
+		}.bind(this));
+	},
+	getClassList: function (cb) {
+		superagent.get('/api/classes', function (err, res) {
+			if (err) {
+				console.log(err);
+			} else {
+				var classes = res.body;
+				this.setState({
+					classes: classes
 				});
 			}
 		}.bind(this));
 	},
-	// getClassList: function (cb) {
-	// 	superagent.get('/api/classes', function (err, res) {
-	// 		cb(err, res ? res.body : null);
-	// 	});
-	// },
 	// getMagicSchoolList: function (cb) {
 	// 	superagent.get('/api/magic_schools', function (err, res) {
 	// 		cb(err, res ? res.body : null);
@@ -35,6 +46,7 @@ var SpellPage = React.createClass({
 	// },
 	componentDidMount: function() {
 		this.getSpellList();
+		this.getClassList();
 	},
 	getInitialState: function() {
 		return {
@@ -46,6 +58,8 @@ var SpellPage = React.createClass({
 			<div className='SpellPage'>
 				<FilterableSpellList
 					filterCol='name'
+					classes={this.state.classes}
+					schools={this.state.schools}
 					spells={this.state.spells} />
 			</div>
 		);
