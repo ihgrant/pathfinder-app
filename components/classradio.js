@@ -1,26 +1,25 @@
-var React = require('react');
+import React, {PropTypes} from 'react';
 
-var ClassRadio = React.createClass({
-	propTypes: {
-		name: React.PropTypes.string.isRequired,
-		value: React.PropTypes.string,
-		defaultChecked: React.PropTypes.bool,
-		_onChange: React.PropTypes.func
-	},
-	render: function() {
-		return (
-			<div>
-				<input
-					type="radio"
-					name={this.props.name}
-					defaultChecked={this.props.defaultChecked}
-					onChange={this.handleRadioChange}
-					value={this.props.value} />
-				<label className="p-05e">{this.props.value}</label>
-			</div>
-		);
-	}
+function ClassRadio(props) {
+	return (
+		<label className="p-05e" htmlFor={props.name}>
+			<input
+				defaultChecked={props.defaultChecked}
+				id={props.name}
+				name={props.name}
+				onChange={props.onChange}
+				type="radio"
+				value={props.value} />
+			{props.value}
+		</label>
+	);
+}
 
-});
+ClassRadio.propTypes = {
+	name: PropTypes.string.isRequired,
+	value: PropTypes.string,
+	defaultChecked: PropTypes.bool,
+	onChange: PropTypes.func
+};
 
 module.exports = ClassRadio;

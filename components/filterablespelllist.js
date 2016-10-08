@@ -1,47 +1,13 @@
-var React = require('react');
+import React, {Component, PropTypes} from 'react';
 
 var FilterableSpell = require('./filterablespell');
 var SliderInput = require('./sliderinput');
 var ClassRadio = require('./classradio');
 
-var FilterableSpellList = React.createClass({
-	propTypes: {
-		filterCol: React.PropTypes.string,
-		spells: React.PropTypes.array
-	},
-	handleFilterChange: function (e) {
-		this.setState({
-			filter: e.target.value.toLowerCase(),
-			moreForm: false
-		});
-	},
-	handleShowMore: function (e) {
-		this.setState({
-			moreForm: !this.state.moreForm
-		});
-		e.preventDefault();
-	},
-	handleMinValue: function (e) {
-		var lvl = e.target.value,
-		id = e.target.id;
-		this.setState({
-			min_lvl: lvl
-		});
-	},
-	handleMaxValue: function (e) {
-		var lvl = e.target.value,
-		id = e.target.id;
-		this.setState({
-			max_lvl: lvl
-		});
-	},
-	handleRadioChange: function (e) {
-		this.setState({
-			clas: e.target.value
-		});
-	},
-	getInitialState: function () {
-		return {
+class FilterableSpellList extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {
 			filter: '',
 			spells: [],
 			moreForm: false,
@@ -49,23 +15,59 @@ var FilterableSpellList = React.createClass({
 			max_lvl: 9,
 			clas: 'none'
 		};
-	},
-	componentWillUpdate: function () {
+		this.handleFilterChange = this.handleFilterChange.bind(this);
+		this.handleShowMore = this.handleShowMore.bind(this);
+		this.handleMinValue = this.handleMinValue.bind(this);
+		this.handleMaxValue = this.handleMaxValue.bind(this);
+		this.handleRadioChange = this.handleRadioChange.bind(this);
+	}
+	handleFilterChange(e) {
+		this.setState({
+			filter: e.target.value.toLowerCase(),
+			moreForm: false
+		});
+	}
+	handleShowMore(e) {
+		this.setState({
+			moreForm: !this.state.moreForm
+		});
+		e.preventDefault();
+	}
+	handleMinValue(e) {
+		var lvl = e.target.value,
+		id = e.target.id;
+		this.setState({
+			min_lvl: lvl
+		});
+	}
+	handleMaxValue(e) {
+		var lvl = e.target.value,
+		id = e.target.id;
+		this.setState({
+			max_lvl: lvl
+		});
+	}
+	handleRadioChange(e) {
+		this.setState({
+			clas: e.target.value
+		});
+	}
+	componentWillUpdate() {
 		localStorage.spell_state = JSON.stringify(this.state);
-	},
-	render: function () {
+	}
+	render() {
 		var spells = [];
 
 		if (this.props.spells.length) {
 			spells = this.props.spells
-			.filter(function (spell) {
+			.filter((spell) => {
 				if (spell.name.toLowerCase().indexOf(this.state.filter) === -1) return false;
 				if (this.state.clas !== 'none' 
 					&& (spell[this.state.clas] === 'NULL'
 						|| Number(spell[this.state.clas]) < this.state.min_lvl
 						|| Number(spell[this.state.clas]) > this.state.max_lvl)) return false;
 				return true;
-			}.bind(this))
+			})
 			.splice(0, 50) // return no more than 50 entries to keep render times down
 			.map(function (spell) {
 				return (
@@ -84,11 +86,11 @@ var FilterableSpellList = React.createClass({
 					<input
 						type='search'
 						className='w-90 boxstyle bg-i'
-						autofocus
-						placeholder={'Filter '+this.props.filterCol+'...'}
+						autoFocus
+						placeholder={`Filter by ${this.props.filterCol}...`}
 						onChange={this.handleFilterChange} />
 					<span className='abs-inputright'>
-						{this.state.clas !=='none' ? this.state.clas+','+' level '+this.state.min_lvl+'-'+this.state.max_lvl : ''}
+						{this.state.clas !=='none' ? `${this.state.clas}, level ${this.state.min_lvl}-${this.state.max_lvl}` : ''}
 					</span>
 					<button
 						className='w-10 boxstyle bg-i'
@@ -160,6 +162,11 @@ var FilterableSpellList = React.createClass({
 			</div>
 		);
 	}
-});
+}
+
+FilterableSpellList.propTypes = {
+	filterCol: PropTypes.string,
+	spells: PropTypes.array
+};
 
 module.exports = FilterableSpellList;

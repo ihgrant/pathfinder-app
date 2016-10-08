@@ -1,29 +1,29 @@
-var React = require('react');
+import React, {PropTypes} from 'react';
 
-var SliderInput = React.createClass({
-	propTypes: {
-		defaultValue: React.PropTypes.number,
-		name: React.PropTypes.string.isRequired,
-		label: React.PropTypes.string,
-		min: React.PropTypes.number.isRequired,
-		max: React.PropTypes.number.isRequired,
-		handleChange: React.PropTypes.func
-	},
-	render: function() {
-		return (
-			<div>
-				<label htmlFor={this.props.name}>{this.props.label || this.props.name}</label>
-				<input id={this.props.name}
-					name={this.props.name}
+function SliderInput(props) {
+	return (
+		<div>
+			<label htmlFor={props.name}>
+				<input id={props.name}
+					name={props.name}
 					type="range"
-					min={this.props.min}
-					max={this.props.max}
-					defaultValue={this.props.defaultValue}
-					onChange={this.props.handleChange} />
-			</div>
-		);
-	}
+					min={props.min}
+					max={props.max}
+					defaultValue={props.defaultValue}
+					onChange={props.handleChange} />
+				{props.label || props.name}
+			</label>
+		</div>
+	);
+}
 
-});
+SliderInput.propTypes = {
+	defaultValue: PropTypes.number,
+	name: PropTypes.string.isRequired,
+	label: PropTypes.string,
+	min: PropTypes.number.isRequired,
+	max: PropTypes.number.isRequired,
+	handleChange: PropTypes.func
+}
 
 module.exports = SliderInput;

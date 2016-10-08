@@ -1,41 +1,33 @@
-/**
- * @jsx React.DOM
- */
-
-var React = require('react');
-// var ReactAsync = require('react-async');
-var superagent = require('superagent');
-
+import React, {Component} from 'react';
 var PageNav = require('./pagenav');
 var FilterableFeatList = require('./filterablefeatlist');
 
-var FeatPage = React.createClass({
-	getFeatList: function (cb) {
-		superagent.get('/api/feats', function (err, res) {
-			if (err) {
-				console.log(err);
-			} else {
-				this.setState({
-					feats: res.body
-				});
-			}
-		}.bind(this));
-	},
-	componentWillMount: function() {
-		this.getFeatList();
-	},
-	getInitialState: function() {
-		return {
+class FeatPage extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {
 			feats: []
 		};
-	},
-	render: function () {
+	}
+	getFeatList() {
+		fetch('/api/feats').then(response => response.json()).then(json => {
+			this.setState({
+				feats: json
+			});
+		}).catch(err => {
+			console.log('parsing failed', err)
+		});
+	}
+	componentWillMount() {
+		this.getFeatList();
+	}
+	render() {
 		return (
 			<div className="FeatPage">
 				<FilterableFeatList feats={this.state.feats}/>
 			</div>
 		);
 	}
-});
+}
 
 module.exports = FeatPage;

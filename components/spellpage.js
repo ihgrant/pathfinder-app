@@ -1,47 +1,27 @@
-var React = require('react');
-// var ReactAsync = require('react-async');
-var superagent = require('superagent');
-
+import React, {Component} from 'react';
 var PageNav = require('./pagenav');
 var FilterableSpellList = require('./filterablespelllist');
 
-var SpellPage = React.createClass({
-	getSpellList: function (cb, filters) {
-		superagent.get('/api/spells', function(err, res) {
-			if (err) {
-				console.log(err);
-			} else {
-				this.setState({
-					spells: res.body
-				});
-			}
-		}.bind(this));
-	},
-	// getClassList: function (cb) {
-	// 	superagent.get('/api/classes', function (err, res) {
-	// 		cb(err, res ? res.body : null);
-	// 	});
-	// },
-	// getMagicSchoolList: function (cb) {
-	// 	superagent.get('/api/magic_schools', function (err, res) {
-	// 		cb(err, res ? res.body : null);
-	// 	});
-	// },
-	// getInitialStateAsync: function (cb) {
-	// 	superagent.get('localhost:3001/api/spells', function(err, res) {
-	// 		cb(err, res ? {spells: res.body} : null);
-	// 	}.bind(this));
-	// 	// this.type.getMagicSchoolList(cb);
-	// },
-	componentDidMount: function() {
-		this.getSpellList();
-	},
-	getInitialState: function() {
-		return {
+class SpellPage extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {
 			spells: []
 		};
-	},
-	render: function () {
+	}
+	getSpellList() {
+		fetch('/api/spells').then(response => response.json()).then(json => {
+			this.setState({
+				spells: json
+			});
+		}).catch(err => {
+			console.log('parsing failed', err)
+		});
+	}
+	componentDidMount() {
+		this.getSpellList();
+	}
+	render() {
 		return (
 			<div className='SpellPage'>
 				<FilterableSpellList
@@ -50,6 +30,6 @@ var SpellPage = React.createClass({
 			</div>
 		);
 	}
-});
+}
 
 module.exports = SpellPage;

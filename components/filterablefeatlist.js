@@ -1,26 +1,35 @@
-var React = require('react');
+import React, {Component} from 'react';
 
 var FilterableFeat = require('./filterablefeat');
 var ChosenFeat = require('./chosenfeat');
 
-var FilterableFeatList = React.createClass({
-	handleFilterChange: function (e) {
+class FilterableFeatList extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			filter: '',
+			filterType: 'all',
+			moreForm: false,
+			prereqs: []
+		};
+	}
+	handleFilterChange(e) {
 		this.setState({
 			filter: e.target.value.toLowerCase(),
 		});
-	},
-	handleShowMore: function (e) {
+	}
+	handleShowMore(e) {
 		this.setState({
 			moreForm: !this.state.moreForm
 		});
 		e.preventDefault();
-	},
-	handleRadioChange: function (e) {
+	}
+	handleRadioChange(e) {
 		this.setState({
 			filterType: e.target.value
 		});
-	},
-	addFeat: function (e) {
+	}
+	addFeat(e) {
 		if (this.state.filterType === 'prereqs') {
 			var prereqs = this.state.prereqs;
 			prereqs.push(e.currentTarget.dataset.id);
@@ -28,8 +37,8 @@ var FilterableFeatList = React.createClass({
 				prereqs: prereqs
 			});
 		}
-	},
-	removeFeat: function (e) {
+	}
+	removeFeat(e) {
 		if (this.state.filterType === 'prereqs') {
 			var prereqs = this.state.prereqs;
 			prereqs.splice(prereqs.indexOf(e.currentTarget.dataset.id), 1);
@@ -37,29 +46,17 @@ var FilterableFeatList = React.createClass({
 				prereqs: prereqs
 			});
 		}
-	},
-	getInitialState: function () {
-		// if (!localStorage.feats_state) {
-			return {
-				filter: '',
-				filterType: 'all',
-				moreForm: false,
-				prereqs: []
-			};
-		// } else {
-		// 	return JSON.parse(localStorage.feats_state);
-		// }
-	},
-	componentWillUpdate: function () {
+	}
+	componentWillUpdate() {
 		localStorage.feats_state = JSON.stringify(this.state);
-	},
-	render: function () {
-		var feats = null,
-		chosenfeats = null;
+	}
+	render() {
+		var feats = null;
+		var chosenfeats = null;
 
 		if (this.props.feats.length) {
 			feats = this.props.feats
-			.filter(function (feat) { // match for prerequisites (if applicable)
+			.filter(feat => { // match for prerequisites (if applicable)
 				if (this.state.filterType === 'prereqs' && feat.prerequisite_feats.length) {
 					var feat_prereqs = feat.prerequisite_feats.split(',');
 					if (this.state.prereqs.indexOf(feat_prereqs) !== -1) {
@@ -69,24 +66,20 @@ var FilterableFeatList = React.createClass({
 					}
 				}
 				return true;
-			}.bind(this))
-			.filter(function (feat) { // match against text filter
-				return (feat.name.toLowerCase().indexOf(this.state.filter) !== -1);
-			}.bind(this))
+			})
+			.filter(feat => feat.name.toLowerCase().indexOf(this.state.filter) !== -1)
 			.splice(0, 50)
-			.map(function (feat) {
-				return <FilterableFeat key={feat.id} feat={feat} addFeat={this.addFeat} />;
-			}.bind(this));
+			.map(feat => <FilterableFeat key={feat.id} feat={feat} addFeat={this.addFeat} />);
 		}
 
 		if (this.state.prereqs.length && this.state.filterType === 'prereqs') {
 			chosenfeats = this.props.feats
-			.filter(function (feat) {
-				return (this.state.prereqs.indexOf(feat.id.toString()) !== -1);
-			}.bind(this))
-			.map(function (feat) {
+			.filter(feat => {
+				return this.state.prereqs.indexOf(feat.id.toString()) !== -1;
+			})
+			.map(feat => {
 				return <ChosenFeat key={feat.id} feat={feat} removeFeat={this.removeFeat} />;
-			}.bind(this));
+			});
 		}
 
 		return (
@@ -127,6 +120,6 @@ var FilterableFeatList = React.createClass({
 			</div>
 		);
 	}
-});
+}
 
 module.exports = FilterableFeatList;
