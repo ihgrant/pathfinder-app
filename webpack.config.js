@@ -1,3 +1,17 @@
+var webpack = require('webpack');
+
+var plugins = [
+    new webpack.ProvidePlugin({
+        'fetch': 'imports?this=>global!exports?global.fetch!whatwg-fetch'
+    })
+];
+
+if (process.env.NODE_ENV === 'production') {
+    plugins.push(new webpack.DefinePlugin({
+        NODE_ENV: JSON.stringify('production')
+    }));
+}
+
 module.exports = {
     entry: './components/app.js',
     output: {
@@ -8,9 +22,5 @@ module.exports = {
             { test: /\.js$/, loader: 'babel-loader' },
         ]
     },
-    plugins: [
-        new webpack.ProvidePlugin({
-            'fetch': 'imports?this=>global!exports?global.fetch!whatwg-fetch'
-        })
-    ]
+    plugins: plugins
 };
