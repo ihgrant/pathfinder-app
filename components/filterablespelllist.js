@@ -57,25 +57,47 @@ class FilterableSpellList extends Component {
 	}
 	render() {
 		var spells = [];
+		var classes = [
+			'none',
+			'sorceror',
+			'bard',
+			'inquisitor',
+			'wizard',
+			'paladin',
+			'oracle',
+			'cleric',
+			'alchemist',
+			'antipaladin',
+			'druid',
+			'summoner',
+			'magus',
+			'ranger',
+			'witch',
+			'adept',
+		];
+		var classRadios = classes.map(el => (
+			<ClassRadio
+				name={el}
+				onChange={this.handleFilterChange}
+				value={this.state.clas === el} />
+		));
 
 		if (this.props.spells.length) {
 			spells = this.props.spells
 			.filter((spell) => {
 				if (spell.name.toLowerCase().indexOf(this.state.filter) === -1) return false;
-				if (this.state.clas !== 'none' 
+				if (this.state.clas !== 'none'
 					&& (spell[this.state.clas] === 'NULL'
 						|| Number(spell[this.state.clas]) < this.state.min_lvl
 						|| Number(spell[this.state.clas]) > this.state.max_lvl)) return false;
 				return true;
 			})
 			.splice(0, 50) // return no more than 50 entries to keep render times down
-			.map(function (spell) {
-				return (
-					<FilterableSpell
-						key={spell.pk}
-						spell={spell} />
-				);
-			});
+			.map(spell => (
+				<FilterableSpell
+					key={spell.pk}
+					spell={spell} />
+			));
 		}
 		// <ClassRadio name='class' defaultChecked={true} _onChange={this.handleRadioChange} value='none' />
 
@@ -101,38 +123,7 @@ class FilterableSpellList extends Component {
 						<div className='p-05e'>
 							<label htmlFor='class'>Class:</label><br/>
 							<div className='col-3'>
-								<input type='radio' name='class' defaultChecked onChange={this.handleRadioChange} value='none'/>
-								<label className='p-05e'>(none)</label><br/>
-								<input type='radio' name='class' onChange={this.handleRadioChange} value='sorceror'/>
-								<label className='p-05e'>Sorceror</label><br/>
-								<input type='radio' name='class' onChange={this.handleRadioChange} value='bard'/>
-								<label className='p-05e'>Bard</label><br/>
-								<input type='radio' name='class' onChange={this.handleRadioChange} value='inquisitor'/>
-								<label className='p-05e'>Inquisitor</label><br/>
-								<input type='radio' name='class' onChange={this.handleRadioChange} value='wizard'/>
-								<label className='p-05e'>Wizard</label><br/>
-								<input type='radio' name='class' onChange={this.handleRadioChange} value='paladin'/>
-								<label className='p-05e'>Paladin</label><br/>
-								<input type='radio' name='class' onChange={this.handleRadioChange} value='oracle'/>
-								<label className='p-05e'>Oracle</label><br/>
-								<input type='radio' name='class' onChange={this.handleRadioChange} value='cleric'/>
-								<label className='p-05e'>Cleric</label><br/>
-								<input type='radio' name='class' onChange={this.handleRadioChange} value='alchemist'/>
-								<label className='p-05e'>Alchemist</label><br/>
-								<input type='radio' name='class' onChange={this.handleRadioChange} value='antipaladin'/>
-								<label className='p-05e'>Antipaladin</label><br/>
-								<input type='radio' name='class' onChange={this.handleRadioChange} value='druid'/>
-								<label className='p-05e'>Druid</label><br/>
-								<input type='radio' name='class' onChange={this.handleRadioChange} value='summoner'/>
-								<label className='p-05e'>Summoner</label><br/>
-								<input type='radio' name='class' onChange={this.handleRadioChange} value='magus'/>
-								<label className='p-05e'>Magus</label><br/>
-								<input type='radio' name='class' onChange={this.handleRadioChange} value='ranger'/>
-								<label className='p-05e'>Ranger</label><br/>
-								<input type='radio' name='class' onChange={this.handleRadioChange} value='witch'/>
-								<label className='p-05e'>Witch</label><br/>
-								<input type='radio' name='class' onChange={this.handleRadioChange} value='adept'/>
-								<label className='p-05e'>Adept</label>
+								{classRadios}
 							</div>
 						</div>
 						<div className='p-05e'>

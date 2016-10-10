@@ -8,7 +8,7 @@ function PageNav(props) {
 		'p-05e': true
 	});
 	return (
-		<div className="bg-purple">
+		<div className='bg-purple'>
 			<div className='container'>
 				<div className='tbl w-100'>
 					<div className='tbl-row'>

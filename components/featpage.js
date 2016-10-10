@@ -23,7 +23,7 @@ class FeatPage extends Component {
 	}
 	render() {
 		return (
-			<div className="FeatPage">
+			<div className='FeatPage'>
 				<FilterableFeatList feats={this.state.feats}/>
 			</div>
 		);
