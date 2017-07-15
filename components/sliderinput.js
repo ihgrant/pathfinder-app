@@ -6,7 +6,7 @@ function SliderInput(props) {
 			<label htmlFor={props.name}>
 				<input id={props.name}
 					name={props.name}
-					type="range"
+					type='range'
 					min={props.min}
 					max={props.max}
 					defaultValue={props.defaultValue}

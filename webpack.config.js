@@ -14,13 +14,13 @@ if (process.env.NODE_ENV === 'production') {
 
 module.exports = {
     entry: './components/app.js',
-    output: {
-        filename: './public/js/bundle.js'
-    },
     module: {
         loaders: [
             { test: /\.js$/, loader: 'babel-loader' },
         ]
+    },
+    output: {
+        filename: './public/js/bundle.js'
     },
     plugins: plugins
 };
