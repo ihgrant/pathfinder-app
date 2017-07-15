@@ -1,8 +1,12 @@
+// @flow
 import React, { Component } from "react";
 import PageNav from "./pagenav";
 import FilterableSpellList from "./filterablespelllist";
 
 export default class SpellPage extends Component {
+    state: {
+        spells: Spell[]
+    };
     constructor(props) {
         super(props);
         this.state = { spells: [] };

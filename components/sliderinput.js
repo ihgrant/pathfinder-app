@@ -1,6 +1,14 @@
-import React, { PropTypes } from "react";
+// @flow
+import React from "react";
 
-export default function SliderInput(props) {
+export default function SliderInput(props: {
+    defaultValue: string,
+    max: number,
+    min: number,
+    handleChange: () => void,
+    label: string,
+    name: string
+}) {
     return (
         <div>
             <label htmlFor={props.name}>
@@ -18,12 +26,3 @@ export default function SliderInput(props) {
         </div>
     );
 }
-
-SliderInput.propTypes = {
-    defaultValue: PropTypes.number,
-    name: PropTypes.string.isRequired,
-    label: PropTypes.string,
-    min: PropTypes.number.isRequired,
-    max: PropTypes.number.isRequired,
-    handleChange: PropTypes.func
-};

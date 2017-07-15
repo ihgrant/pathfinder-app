@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import classnames from "classnames";
 
-export default function PageNav(props) {
+export default function PageNav() {
     var classes = classnames({
         "tbl-cell": true,
         "p-05e": true

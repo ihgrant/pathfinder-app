@@ -1,10 +1,23 @@
-import React, { Component, PropTypes } from "react";
+// @flow
+import React, { Component } from "react";
 
 import FilterableSpell from "./filterablespell";
 import SliderInput from "./sliderinput";
 import ClassRadio from "./classradio";
 
 export default class FilterableSpellList extends Component {
+    props: {
+        filterCol: string,
+        spells: Spell[]
+    };
+    state: {
+        filter: string,
+        spells: Spell[],
+        moreForm: boolean,
+        min_lvl: number,
+        max_lvl: number,
+        clas: string
+    };
     constructor(props) {
         super(props);
         this.state = {
@@ -172,8 +185,3 @@ export default class FilterableSpellList extends Component {
         );
     }
 }
-
-FilterableSpellList.propTypes = {
-    filterCol: PropTypes.string,
-    spells: PropTypes.array
-};

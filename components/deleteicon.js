@@ -1,6 +1,7 @@
+// @flow
 import React from "react";
 
-export default function DeleteIcon(props) {
+export default function DeleteIcon(props: { classes: ?string }) {
     return (
         <svg
             className={props.classes || ""}

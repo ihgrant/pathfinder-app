@@ -1,6 +1,7 @@
+// @flow
 import React from "react";
 
-export default function PlusIcon(props) {
+export default function PlusIcon(props: { classes: ?string }) {
     return (
         <svg
             className={props.classes || ""}

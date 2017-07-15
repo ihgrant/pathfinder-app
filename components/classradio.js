@@ -1,6 +1,12 @@
-import React, { PropTypes } from "react";
+// @flow
+import React from "react";
 
-export default function ClassRadio(props) {
+export default function ClassRadio(props: {
+    name: string,
+    value: string,
+    defaultChecked: boolean,
+    onChange: () => void
+}) {
     return (
         <label className="p-05e" htmlFor={props.name}>
             <input
@@ -15,10 +21,3 @@ export default function ClassRadio(props) {
         </label>
     );
 }
-
-ClassRadio.propTypes = {
-    name: PropTypes.string.isRequired,
-    value: PropTypes.string,
-    defaultChecked: PropTypes.bool,
-    onChange: PropTypes.func
-};

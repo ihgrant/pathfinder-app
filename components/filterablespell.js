@@ -1,6 +1,7 @@
+// @flow
 import React from "react";
 
-export default function FilterableSpell(props) {
+export default function FilterableSpell(props: { spell: Spell }) {
     return (
         <li className="p-1e">
             <h3 className="m-t-0">

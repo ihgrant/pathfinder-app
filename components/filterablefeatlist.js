@@ -1,9 +1,18 @@
+// @flow
 import React, { Component } from "react";
-
 import FilterableFeat from "./filterablefeat";
 import ChosenFeat from "./chosenfeat";
 
 export default class FilterableFeatList extends Component {
+    props: {
+        feats: Feat[]
+    };
+    state: {
+        filter: string,
+        filterType: "all" | "prereqs",
+        moreForm: boolean,
+        prereqs: string[]
+    };
     constructor(props) {
         super(props);
         this.state = {
