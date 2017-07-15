@@ -1,49 +1,49 @@
 {
-  "name": "pathfinder-app",
-  "version": "0.1.1",
-  "description": "pathfinder app for spell quicksearch",
-  "main": "./server.js",
-  "dependencies": {
-    "classnames": "^2.2.5",
-    "express": "^4.x.x",
-    "pg": "^4.x.x",
-    "react": "^15.3.2",
-    "react-dom": "^15.3.2",
-    "react-router": "^4.1.1",
-    "react-router-dom": "^4.1.1",
-    "sqlite3": "^3.1.6",
-    "whatwg-fetch": "^1.0.0"
-  },
-  "devDependencies": {
-    "babel-core": "^6.17.0",
-    "babel-loader": "^6.2.5",
-    "babel-preset-es2015": "^6.16.0",
-    "babel-preset-react": "^6.16.0",
-    "cross-env": "^3.1.2",
-    "exports-loader": "^0.6.3",
-    "imports-loader": "^0.6.5",
-    "npm-run-all": "^3.1.0",
-    "superagent": "^0.18.x",
-    "supervisor": "^0.6.0",
-    "webpack": "^1.5.1"
-  },
-  "engines": {
-    "node": "^0.10.x"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/ihgrant/pathfinder-app"
-  },
-  "scripts": {
-    "build": "webpack -p --progress --colors",
-    "clean": "rm -f ./public/js/bundle.js",
-    "postinstall": "cross-env NODE_ENV=production webpack -p --progress --colors",
-    "start": "run-p watch-api watch-webpack",
-    "start-prod": "NODE_ENV=production node server.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "watch-api": "supervisor --watch server.js,api.js server",
-    "watch-webpack": "webpack -w -d --colors"
-  },
-  "author": "ihgrant",
-  "license": "MIT"
+    "name": "pathfinder-app",
+    "version": "0.1.1",
+    "description": "pathfinder app for spell quicksearch",
+    "main": "./server.js",
+    "dependencies": {
+        "classnames": "^2.2.5",
+        "express": "^4.x.x",
+        "pg": "^4.x.x",
+        "react": "^15.3.2",
+        "react-dom": "^15.3.2",
+        "react-router": "^4.1.1",
+        "react-router-dom": "^4.1.1",
+        "sqlite3": "^3.1.6",
+        "whatwg-fetch": "^1.0.0"
+    },
+    "devDependencies": {
+        "babel-core": "^6.17.0",
+        "babel-loader": "^6.2.5",
+        "babel-preset-es2015": "^6.16.0",
+        "babel-preset-react": "^6.16.0",
+        "cross-env": "^3.1.2",
+        "exports-loader": "^0.6.3",
+        "imports-loader": "^0.6.5",
+        "npm-run-all": "^3.1.0",
+        "superagent": "^0.18.x",
+        "supervisor": "^0.6.0",
+        "webpack": "^1.5.1"
+    },
+    "engines": {
+        "node": "^6"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/ihgrant/pathfinder-app"
+    },
+    "scripts": {
+        "build": "webpack -p --progress --colors",
+        "clean": "rm -f ./public/js/bundle.js",
+        "postinstall": "cross-env NODE_ENV=production webpack -p --progress --colors",
+        "start": "run-p watch-api watch-webpack",
+        "start-prod": "NODE_ENV=production node server.js",
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "watch-api": "supervisor --watch server.js,api.js server",
+        "watch-webpack": "webpack -w -d --colors"
+    },
+    "author": "ihgrant",
+    "license": "MIT"
 }
