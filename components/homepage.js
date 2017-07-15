@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-function HomePage(props) {
+export default function HomePage(props) {
     return (
         <div className="container">
             <h1 className="a-c">
@@ -22,5 +22,3 @@ function HomePage(props) {
         </div>
     );
 }
-
-module.exports = HomePage;

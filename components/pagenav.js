@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import classnames from "classnames";
 
-function PageNav(props) {
+export default function PageNav(props) {
     var classes = classnames({
         "tbl-cell": true,
         "p-05e": true
@@ -27,5 +27,3 @@ function PageNav(props) {
         </div>
     );
 }
-
-module.exports = PageNav;

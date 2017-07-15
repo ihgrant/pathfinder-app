@@ -2,11 +2,11 @@ import React from "react";
 import { render } from "react-dom";
 import { HashRouter, Route } from "react-router-dom";
 
-var HomePage = require("./homepage");
-var SpellPage = require("./spellpage");
-var FeatPage = require("./featpage");
-var PageNav = require("./pagenav");
-var Footer = require("./footer");
+import HomePage from "./homepage";
+import SpellPage from "./spellpage";
+import FeatPage from "./featpage";
+import PageNav from "./pagenav";
+import Footer from "./footer";
 
 const App = () =>
     <HashRouter basename={"/"}>

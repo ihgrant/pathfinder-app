@@ -1,10 +1,10 @@
 import React, { Component, PropTypes } from "react";
 
-var FilterableSpell = require("./filterablespell");
-var SliderInput = require("./sliderinput");
-var ClassRadio = require("./classradio");
+import FilterableSpell from "./filterablespell";
+import SliderInput from "./sliderinput";
+import ClassRadio from "./classradio";
 
-class FilterableSpellList extends Component {
+export default class FilterableSpellList extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -177,5 +177,3 @@ FilterableSpellList.propTypes = {
     filterCol: PropTypes.string,
     spells: PropTypes.array
 };
-
-module.exports = FilterableSpellList;
