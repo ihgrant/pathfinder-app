@@ -12,3 +12,4 @@ node_modules
 .lock-wscript
 *.sublime-workspace
 data/export.sql
+public/js/*
