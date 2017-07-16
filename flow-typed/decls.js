@@ -6,6 +6,7 @@ declare type Feat = {
     id: number,
     name: string,
     prerequisites: string,
+    prerequisite_feats: string,
     special: string,
     type: string
 };
@@ -15,6 +16,7 @@ declare type Spell = {
     description: string,
     duration: number,
     name: string,
+    pk: number,
     saving_throw: string,
     school: string,
     spell_level: string

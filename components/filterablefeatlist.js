@@ -2,6 +2,7 @@
 import React, { Component } from "react";
 import FilterableFeat from "./filterablefeat";
 import ChosenFeat from "./chosenfeat";
+import ExpandableForm from "./ExpandableForm";
 
 export default class FilterableFeatList extends Component {
     props: {
@@ -11,15 +12,15 @@ export default class FilterableFeatList extends Component {
         filter: string,
         filterType: "all" | "prereqs",
         moreForm: boolean,
-        prereqs: string[]
+        prereqs: Set<string>
     };
-    constructor(props) {
-        super(props);
+    constructor() {
+        super();
         this.state = {
             filter: "",
             filterType: "all",
             moreForm: false,
-            prereqs: []
+            prereqs: new Set()
         };
         this.addFeat = this.addFeat.bind(this);
         this.removeFeat = this.removeFeat.bind(this);
@@ -27,42 +28,36 @@ export default class FilterableFeatList extends Component {
         this.handleRadioChange = this.handleRadioChange.bind(this);
         this.handleShowMore = this.handleShowMore.bind(this);
     }
-    handleFilterChange(e) {
+    handleFilterChange(e: Event & { currentTarget: HTMLInputElement }) {
         this.setState({
-            filter: e.target.value.toLowerCase()
+            filter: e.currentTarget.value.toLowerCase()
         });
     }
-    handleShowMore(e) {
-        this.setState({
-            moreForm: !this.state.moreForm
-        });
-        e.preventDefault();
+    handleShowMore() {
+        this.setState({ moreForm: !this.state.moreForm });
     }
-    handleRadioChange(e) {
+    handleRadioChange(e: Event & { currentTarget: HTMLInputElement }) {
         this.setState({
-            filterType: e.target.value
+            filterType: e.currentTarget.value,
+            moreForm: false
         });
     }
-    addFeat(e) {
+    addFeat(featName: string) {
         if (this.state.filterType === "prereqs") {
-            var prereqs = this.state.prereqs;
-            prereqs.push(e.currentTarget.dataset.id);
-            this.setState({
-                prereqs: prereqs
-            });
+            this.setState(currentState => ({
+                prereqs: currentState.prereqs.add(featName)
+            }));
         }
     }
-    removeFeat(e) {
+    removeFeat(featName: string) {
         if (this.state.filterType === "prereqs") {
-            var prereqs = this.state.prereqs;
-            prereqs.splice(prereqs.indexOf(e.currentTarget.dataset.id), 1);
-            this.setState({
-                prereqs: prereqs
-            });
+            this.setState(currentState => ({
+                prereqs: new Set([...currentState.prereqs].filter(prereq => prereq !== featName))
+            }));
         }
     }
     componentWillUpdate() {
-        localStorage.feats_state = JSON.stringify(this.state);
+        // localStorage.feats_state = JSON.stringify(this.state);
     }
     render() {
         var feats = null;
@@ -73,12 +68,12 @@ export default class FilterableFeatList extends Component {
                 .filter(feat => {
                     // match for prerequisites (if applicable)
                     if (this.state.filterType === "prereqs" && feat.prerequisite_feats.length) {
-                        var feat_prereqs = feat.prerequisite_feats.split(",");
-                        if (this.state.prereqs.indexOf(feat_prereqs) !== -1) {
-                            return true;
-                        } else {
-                            return false;
-                        }
+                        var featPrereqs = feat.prerequisite_feats.split(",");
+                        var hasAllPrereqs = featPrereqs.every(prereq =>
+                            this.state.prereqs.has(prereq)
+                        );
+
+                        return hasAllPrereqs;
                     }
                     return true;
                 })
@@ -87,53 +82,44 @@ export default class FilterableFeatList extends Component {
                 .map(feat => <FilterableFeat key={feat.id} feat={feat} addFeat={this.addFeat} />);
         }
 
-        if (this.state.prereqs.length && this.state.filterType === "prereqs") {
+        if (this.state.prereqs.size && this.state.filterType === "prereqs") {
             chosenfeats = this.props.feats
-                .filter(feat => this.state.prereqs.indexOf(feat.id.toString()) !== -1)
+                .filter(feat => this.state.prereqs.has(feat.name))
                 .map(feat => <ChosenFeat key={feat.id} feat={feat} removeFeat={this.removeFeat} />);
         }
 
         return (
             <div>
-                <div className="bg-teal">
-                    <form className="container pos-rel">
+                <ExpandableForm
+                    inputPlaceholder="Filter feats..."
+                    handleFilterChange={this.handleFilterChange}
+                    handleShowMore={this.handleShowMore}
+                    showMore={this.state.moreForm}
+                >
+                    <div className="p-05e">
                         <input
-                            type="search"
-                            className="w-90 boxstyle bg-i"
-                            placeholder="Filter feats..."
-                            onChange={this.handleFilterChange}
+                            defaultChecked
+                            id="all"
+                            name="filter-type"
+                            onChange={this.handleRadioChange}
+                            type="radio"
+                            value="all"
                         />
-                        <button className="w-10 boxstyle bg-i" onClick={this.handleShowMore}>
-                            {this.state.moreForm ? "Less..." : "More..."}
-                        </button>
-                        <div
-                            className={
-                                "w-100 boxstyle bg-teal abs-top ani-slide hidden" +
-                                (this.state.moreForm ? " h-18e" : " h-0")
-                            }
-                        >
-                            <div className="p-05e">
-                                <input
-                                    type="radio"
-                                    name="filter-type"
-                                    defaultChecked
-                                    value="all"
-                                    onChange={this.handleRadioChange}
-                                />
-                                <label className="p-05e">Filter all feats</label>
-                                <br />
-                                <input
-                                    type="radio"
-                                    name="filter-type"
-                                    value="prereqs"
-                                    onChange={this.handleRadioChange}
-                                />
-                                <label className="p-05e">Filter by prerequisites</label>
-                                <br />
-                            </div>
-                        </div>
-                    </form>
-                </div>
+                        <label className="p-05e" htmlFor="all">
+                            Filter all feats
+                        </label>
+                        <input
+                            id="prereqs"
+                            name="filter-type"
+                            onChange={this.handleRadioChange}
+                            type="radio"
+                            value="prereqs"
+                        />
+                        <label className="p-05e" htmlFor="prereqs">
+                            Filter by prerequisites
+                        </label>
+                    </div>
+                </ExpandableForm>
                 <div className="bg-bluewhite">
                     <ul className="container ul-none">
                         {chosenfeats}
