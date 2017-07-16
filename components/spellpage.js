@@ -7,8 +7,8 @@ export default class SpellPage extends Component {
     state: {
         spells: Spell[]
     };
-    constructor(props) {
-        super(props);
+    constructor() {
+        super();
         this.state = { spells: [] };
     }
     getSpellList() {
@@ -28,7 +28,7 @@ export default class SpellPage extends Component {
     }
     render() {
         return (
-            <div className="SpellPage">
+            <div className="page-container">
                 <FilterableSpellList filterCol="name" spells={this.state.spells} />
             </div>
         );

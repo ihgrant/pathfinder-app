@@ -2,22 +2,25 @@
 import React from "react";
 
 export default function ClassRadio(props: {
+    checked: boolean,
     name: string,
+    label: string,
     value: string,
-    defaultChecked: boolean,
-    onChange: () => void
+    onChange: (Event & { currentTarget: HTMLInputElement }) => void
 }) {
     return (
-        <label className="p-05e" htmlFor={props.name}>
+        <div className="p-05e">
             <input
-                defaultChecked={props.defaultChecked}
+                checked={props.checked}
                 id={props.name}
                 name={props.name}
                 onChange={props.onChange}
                 type="radio"
                 value={props.value}
             />
-            {props.name}
-        </label>
+            <label htmlFor={props.name} style={{ paddingLeft: ".25em" }}>
+                {props.label}
+            </label>
+        </div>
     );
 }
