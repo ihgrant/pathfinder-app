@@ -10,7 +10,7 @@ import Footer from "./footer";
 
 const App = () =>
     <HashRouter basename={"/"}>
-        <div>
+        <div className="page bg-bluewhite">
             <PageNav />
             <Route component={HomePage} exact path="/" />
             <Route component={SpellPage} path="/spells" />
