@@ -2,8 +2,8 @@
 
 var path = require('path');
 var express = require('express');
-var Api = require('./api');
-// var Api = require('./pg-api');
+//var Api = require('./api');
+var Api = require('./pg-api');
 
 var development = process.env.NODE_ENV !== 'production';
 var port = process.env.PORT || 3001;
