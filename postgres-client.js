@@ -1,15 +1,20 @@
 /* jshint node:true */
 'use strict';
+const express = require('express');
+const pg = require('pg');
 
-var express = require('express');
-var pg = require('pg');
+const { DATABASE_URL, NODE_ENV } = process.env
+let DB_PATH = DATABASE_URL
+    ? DATABASE_URL
+    : 'postgres://ian@localhost/ian';
 
-var DB_PATH = process.env.DATABASE_URL
-    || 'postgres://ian@localhost/ian';
+if (NODE_ENV === 'production') {
+    DB_PATH += '?sslmode=require'
+}
 
-var getSpellParams = function (query) {
-    var params = '';
-    for (var x in query) {
+function getSpellParams(query) {
+    let params = '';
+    for (let x in query) {
         switch (x) {
             case 'start_lvl':
                 params += ' AND ' + query.clas + '>=' + query[x];
