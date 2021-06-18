@@ -1,7 +1,7 @@
 'use strict';
-var sqlite3 = require('sqlite3').verbose();
-var DB_PATH = 'data/pathfinder.sqlite';
-var db = new sqlite3.Database(DB_PATH)
+const sqlite3 = require('sqlite3').verbose();
+const DB_PATH = 'data/pathfinder.sqlite';
+const db = new sqlite3.Database(DB_PATH)
 
 function runQuery(query) {
     return new Promise((resolve, reject) => {

@@ -1,8 +1,8 @@
 'use strict';
-var express = require('express');
+const express = require('express');
 const { getClasses, getFeats, getMagicSchools, getSpells } = require('./sqlite-client')
 
-var api = express()
+const api = express()
 	.get('/spells', function (req, res) {
 		getSpells()
 			.then(results => res.send(results))
