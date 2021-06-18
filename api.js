@@ -1,6 +1,12 @@
 'use strict';
-const { getClasses, getFeats, getMagicSchools, getSpells } = require('./sqlite-client')
 const router = require('express-promise-router');
+const sqliteClient = require('./sqlite-client')
+const postgresClient = require('./postgres-client')
+
+const databaseClient = process.env.NODE_ENV === 'production'
+	? postgresClient
+	: sqliteClient
+const { getClasses, getFeats, getMagicSchools, getSpells } = databaseClient
 
 const api = router()
 	.get('/spells', function (req, res) {
