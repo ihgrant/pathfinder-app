@@ -9,9 +9,9 @@ let DB_PATH = DATABASE_URL
     ? DATABASE_URL
     : 'postgres://postgres@localhost/pathfinder';
 
-// if (NODE_ENV === 'production') {
-//     DB_PATH += '?sslmode=require'
-// }
+if (NODE_ENV === 'production') {
+    DB_PATH += '?sslmode=require'
+}
 console.info('connecting to ' + DB_PATH)
 
 function getSpellParams(query) {
