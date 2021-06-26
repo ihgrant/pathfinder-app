@@ -13,7 +13,12 @@ if (NODE_ENV === 'production') {
     DB_PATH += '?sslmode=require'
 }
 console.info('connecting to ' + DB_PATH)
-const client = new Client({ connectionString: DB_PATH })
+const client = new Client({
+    connectionString: DB_PATH,
+    ssl: {
+        rejectUnauthorized: false
+    }
+})
 
 function getSpellParams(query) {
     let params = '';
