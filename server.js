@@ -1,16 +1,21 @@
 'use strict';
 const path = require('path');
 const express = require('express');
-const Api = require('./api');
-// const Api = require('./pg-api');
+const initializeApi = require('./api');
 
-const development = process.env.NODE_ENV !== 'production';
-const port = process.env.PORT || 3001;
+const { DATABASE_CLIENT, NODE_ENV, PORT } = process.env
+const port = PORT || 3001;
 const app = express();
+const usePostgresClient = NODE_ENV === 'production' || DATABASE_CLIENT === 'postgres'
+const databaseClient = usePostgresClient
+	? require('./postgres-client')
+	: require('./sqlite-client')
+const api = initializeApi(databaseClient)
 
 app
-	.use('/api', Api)
+	.use('/api', api)
 	.use('/', express.static(path.join(__dirname, 'public')))
 	.listen(port, function () {
-		console.log('Point your browser at http://localhost:' + port);
+		console.info('server listening on port ' + port);
+		console.info('using ' + (usePostgresClient ? 'postgres' : 'sqlite') + ' database client')
 	});

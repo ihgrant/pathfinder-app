@@ -3,14 +3,16 @@
 const express = require('express');
 const pg = require('pg');
 
+console.info('using postgres client')
 const { DATABASE_URL, NODE_ENV } = process.env
 let DB_PATH = DATABASE_URL
     ? DATABASE_URL
-    : 'postgres://ian@localhost/ian';
+    : 'postgres://postgres@localhost/pathfinder';
 
 if (NODE_ENV === 'production') {
     DB_PATH += '?sslmode=require'
 }
+console.info('connecting to ' + DB_PATH)
 
 function getSpellParams(query) {
     let params = '';
