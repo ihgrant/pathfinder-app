@@ -1,7 +1,7 @@
 /* jshint node:true */
 'use strict';
 const express = require('express');
-const pg = require('pg');
+const { Client } = require('pg');
 
 console.info('using postgres client')
 const { DATABASE_URL, NODE_ENV } = process.env
@@ -13,6 +13,7 @@ if (NODE_ENV === 'production') {
     DB_PATH += '?sslmode=require'
 }
 console.info('connecting to ' + DB_PATH)
+const client = new Client({ connectionString: DB_PATH })
 
 function getSpellParams(query) {
     let params = '';
@@ -34,22 +35,9 @@ function getSpellParams(query) {
 };
 
 function runQuery(query) {
-    return new Promise((resolve, reject) => {
-        pg.connect(DB_PATH, function (err, client, done) {
-            if (err) {
-                reject(err)
-            } else {
-                client.query(query, function (err, result) {
-                    done();
-                    if (err) {
-                        reject(err)
-                    } else {
-                        resolve(result.rows);
-                    }
-                });
-            }
-        });
-    })
+    return client.connect()
+        .then(() => client.query(query))
+        .then(response => response.rows)
 }
 
 function getClasses() {
