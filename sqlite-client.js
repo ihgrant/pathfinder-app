@@ -11,7 +11,6 @@ function runQuery(query) {
             } else {
                 resolve(result);
             }
-            db.close();
         });
     })
 }
