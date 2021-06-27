@@ -1,6 +1,6 @@
 // @flow
 import React from "react";
-import PlusIcon from "../../PlusIcon";
+import PlusIcon from "../../atoms/PlusIcon";
 
 export default function FilterableFeat(props: { addFeat: string => void, feat: Feat }) {
     return (
