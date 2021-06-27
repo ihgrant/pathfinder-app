@@ -11,10 +11,11 @@ let DB_PATH = DATABASE_URL
 console.info('connecting to ' + DB_PATH)
 const client = new Client({
     connectionString: DB_PATH,
-    ssl: {
-        rejectUnauthorized: false
-    }
+    ssl: NODE_ENV === 'production'
+        ? { rejectUnauthorized: false }
+        : undefined
 })
+client.connect()
 
 function getSpellParams(query) {
     let params = '';
@@ -36,8 +37,8 @@ function getSpellParams(query) {
 };
 
 function runQuery(query) {
-    return client.connect()
-        .then(() => client.query(query))
+    return client
+        .query(query)
         .then(response => response.rows)
 }
 

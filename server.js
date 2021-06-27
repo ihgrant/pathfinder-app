@@ -14,7 +14,7 @@ const api = initializeApi(databaseClient)
 
 app
 	.use('/api', api)
-	.use('/', express.static(path.join(__dirname, 'public')))
+	.use('/', express.static(path.join(__dirname, 'dist')))
 	.listen(port, function () {
 		console.info('server listening on port ' + port);
 		console.info('using ' + (usePostgresClient ? 'postgres' : 'sqlite') + ' database client')

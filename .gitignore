@@ -13,3 +13,6 @@ node_modules
 *.sublime-workspace
 data/export.sql
 public/js/*
+.cache
+.parcel-cache
+dist
