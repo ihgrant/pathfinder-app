@@ -1,15 +1,24 @@
-/* jshint node:true */
 'use strict';
+const express = require('express');
+const { Client } = require('pg');
 
-var express = require('express');
-var pg = require('pg');
+console.info('using postgres client')
+const { DATABASE_URL, NODE_ENV } = process.env
+let DB_PATH = DATABASE_URL
+    ? DATABASE_URL
+    : 'postgres://postgres@localhost/pathfinder';
 
-var DB_PATH = process.env.DATABASE_URL
-    || 'postgres://ian@localhost/ian';
+console.info('connecting to ' + DB_PATH)
+const client = new Client({
+    connectionString: DB_PATH,
+    ssl: {
+        rejectUnauthorized: false
+    }
+})
 
-var getSpellParams = function (query) {
-    var params = '';
-    for (var x in query) {
+function getSpellParams(query) {
+    let params = '';
+    for (let x in query) {
         switch (x) {
             case 'start_lvl':
                 params += ' AND ' + query.clas + '>=' + query[x];
@@ -27,22 +36,9 @@ var getSpellParams = function (query) {
 };
 
 function runQuery(query) {
-    return new Promise((resolve, reject) => {
-        pg.connect(DB_PATH, function (err, client, done) {
-            if (err) {
-                reject(err)
-            } else {
-                client.query(query, function (err, result) {
-                    done();
-                    if (err) {
-                        reject(err)
-                    } else {
-                        resolve(result.rows);
-                    }
-                });
-            }
-        });
-    })
+    return client.connect()
+        .then(() => client.query(query))
+        .then(response => response.rows)
 }
 
 function getClasses() {
