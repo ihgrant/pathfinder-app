@@ -1,6 +1,6 @@
 // @flow
 import React from "react";
-import PlusIcon from "./plusicon";
+import PlusIcon from "../../atoms/PlusIcon";
 
 export default function FilterableFeat(props: { addFeat: string => void, feat: Feat }) {
     return (
@@ -19,8 +19,8 @@ export default function FilterableFeat(props: { addFeat: string => void, feat: F
             </p>
             {props.feat.special.length
                 ? <p className="m-b-0">
-                      {props.feat.special}
-                  </p>
+                    {props.feat.special}
+                </p>
                 : null}
         </li>
     );

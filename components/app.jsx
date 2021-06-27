@@ -2,14 +2,14 @@ import React from "react";
 import { render } from "react-dom";
 import { HashRouter, Route } from "react-router-dom";
 
-import HomePage from "./homepage";
-import SpellPage from "./spellpage";
-import FeatPage from "./featpage";
-import PageNav from "./pagenav";
-import Footer from "./footer";
+import HomePage from "./pages/HomePage";
+import SpellPage from "./pages/spell/SpellPage";
+import FeatPage from "./pages/feat/FeatPage";
+import PageNav from "./PageNav";
+import Footer from "./Footer";
 
-const App = () =>
-    <HashRouter basename={"/"}>
+function App() {
+    return <HashRouter basename="/">
         <div className="page bg-bluewhite">
             <PageNav />
             <Route component={HomePage} exact path="/" />
@@ -18,5 +18,6 @@ const App = () =>
             <Footer />
         </div>
     </HashRouter>;
+}
 
 render(<App />, document.getElementById("page"));

@@ -1,7 +1,7 @@
 // @flow
 import React, { Component } from "react";
-import PageNav from "./pagenav";
-import FilterableSpellList from "./filterablespelllist";
+import PageNav from "../../PageNav";
+import FilterableSpellList from "./FilterableSpellList";
 
 export default class SpellPage extends Component {
     state: {
@@ -12,7 +12,7 @@ export default class SpellPage extends Component {
         this.state = { spells: [] };
     }
     getSpellList() {
-        fetch("/api/spells")
+        fetch(`/api/spells`)
             .then(response => response.json())
             .then(json => {
                 this.setState({

@@ -1,8 +1,8 @@
 // @flow
 import React, { Component } from "react";
-import FilterableFeat from "./filterablefeat";
-import ChosenFeat from "./chosenfeat";
-import ExpandableForm from "./ExpandableForm";
+import FilterableFeat from "./FilterableFeat";
+import ChosenFeat from "./ChosenFeat";
+import ExpandableForm from "../../ExpandableForm";
 
 export default class FilterableFeatList extends Component {
     props: {
