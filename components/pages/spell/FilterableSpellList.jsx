@@ -1,10 +1,10 @@
 // @flow
 import React, { Component } from "react";
 
-import FilterableSpell from "./filterablespell";
-import SliderInput from "./sliderinput";
-import ClassRadio from "./classradio";
-import ExpandableForm from "./ExpandableForm";
+import FilterableSpell from "./FilterableSpell";
+import SliderInput from "../../atoms/SliderInput";
+import ClassRadio from "../../atoms/ClassRadio";
+import ExpandableForm from "../../ExpandableForm";
 
 export default class FilterableSpellList extends Component {
     props: {
@@ -145,7 +145,7 @@ export default class FilterableSpellList extends Component {
                     <span>
                         {this.state.clas !== "none"
                             ? `${this.state.clas}, level ${this.state.min_lvl}-${this.state
-                                  .max_lvl}`
+                                .max_lvl}`
                             : ""}
                     </span>
                     <ul className="container ul-none">

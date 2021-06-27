@@ -1,6 +1,6 @@
 // @flow
 import React from "react";
-import DeleteIcon from "./deleteicon";
+import DeleteIcon from "../../atoms/DeleteIcon";
 
 export default function ChosenFeat(props: { feat: Feat, removeFeat: string => void }) {
     return (

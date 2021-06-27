@@ -1,7 +1,7 @@
 // @flow
 import React, { Component } from "react";
-import PageNav from "./pagenav";
-import FilterableFeatList from "./filterablefeatlist";
+import PageNav from "../../PageNav";
+import FilterableFeatList from "./FilterableFeatList";
 
 export default class FeatPage extends Component {
     state: {
